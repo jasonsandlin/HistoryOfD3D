@@ -51,6 +51,9 @@ try {
     if ($Push) {
         & git -C $site push -u origin gh-pages
         if ($LASTEXITCODE -ne 0) { throw "push failed" }
+        # Pushes made with some credentials don't trigger a Pages build; ask for one.
+        & gh api -X POST repos/jasonsandlin/HistoryOfD3D/pages/builds --silent 2>$null
+        if ($LASTEXITCODE -ne 0) { Write-Host "   (couldn't request a Pages build - if the site doesn't update, re-run it from the repo's Pages settings)" -ForegroundColor Yellow }
     }
 }
 finally {
