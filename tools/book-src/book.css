@@ -468,6 +468,10 @@ body.present .pager { max-width: 1100px; margin-left: auto; margin-right: auto; 
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .bars .bar-fill { width: var(--w); }
   .trend path { stroke-dashoffset: 0; }
+  /* The system asked for less motion, so the gallery starts paused - but an explicit
+     "Play animations" (body.motion-ok) must still play the capture strips. */
+  body.motion-ok .shot.playing .anim { animation-name: sprite !important; animation-duration: var(--dur, calc(var(--frames, 12) * 110ms)) !important;
+    animation-timing-function: steps(var(--frames, 12), jump-none) !important; animation-iteration-count: infinite !important; }
 }
 
 .prose hr + h2 { border-top: 0; padding-top: 0; margin-top: 36px; }
