@@ -653,10 +653,6 @@ def audiobook_button() -> str:
     length = f"{h} h {m:02d} min" if h else f"{m} min"
     out = (f'<a class="btn big ghost audiobook" href="course.html?listen=1" title="Every page has a Listen button with word-by-word read-along">'
            f'{HEADPHONES}<span>Listen · {length}</span></a>')
-    href = RELEASE_M4B if WEB else (f"assets/audio/{AUDIO_BOOK_NAME}" if (AUDIO / AUDIO_BOOK_NAME).exists() else None)
-    if href:
-        out += (f'<a class="btn big ghost" href="{href}" download title="Chaptered audiobook for any podcast/audiobook app">'
-                f'Download .m4b</a>')
     return out
 
 
