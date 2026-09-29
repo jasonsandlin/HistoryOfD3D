@@ -70,10 +70,14 @@
   // the wall of cubes doesn't turn in lockstep. Off-screen cards stop.
   var autoplay = pageId === "samples" && "IntersectionObserver" in window;
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var motionPref = null;
+  try { motionPref = localStorage.getItem("d3dbook.autoplay"); } catch (e) { /* ignore */ }
+  // An explicit "Play animations" overrides the system's reduce-motion setting
+  // (the CSS keeps capture strips still unless body.motion-ok is set).
+  document.body.classList.toggle("motion-ok", motionPref === "1");
   var autoOn = false, visibleShots = [];
   if (autoplay) {
-    var pref = null;
-    try { pref = localStorage.getItem("d3dbook.autoplay"); } catch (e) { /* ignore */ }
+    var pref = motionPref;
     autoOn = pref ? pref === "1" : !reduceMotion;
     var shotsIo = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -96,15 +100,20 @@
     var toggle = $(".anim-toggle");
     var syncToggle = function () {
       document.body.classList.toggle("autoplay", autoOn);
+      if (autoOn) document.body.classList.add("motion-ok");
       if (!toggle) return;
       toggle.classList.toggle("paused", !autoOn);
       toggle.setAttribute("aria-pressed", autoOn ? "false" : "true");
       toggle.querySelector(".lbl").textContent = autoOn ? "Pause animations" : "Play animations";
+      toggle.title = !autoOn && reduceMotion && !pref
+        ? "Paused because your system asks for reduced motion (Windows: Settings > Accessibility > Animation effects). Click to play anyway."
+        : "";
     };
     syncToggle();
     if (toggle) toggle.addEventListener("click", function () {
       autoOn = !autoOn;
-      try { localStorage.setItem("d3dbook.autoplay", autoOn ? "1" : "0"); } catch (e) { /* ignore */ }
+      pref = autoOn ? "1" : "0";
+      try { localStorage.setItem("d3dbook.autoplay", pref); } catch (e) { /* ignore */ }
       visibleShots.forEach(function (s) { play(s, autoOn); });
       syncToggle();
     });
