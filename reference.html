@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample reference · The History of Direct3D</title>
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 40 40&quot; aria-hidden=&quot;true&quot;&gt;&lt;defs&gt;&lt;linearGradient id=&quot;lg&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;1&quot; y2=&quot;1&quot;&gt;&lt;stop offset=&quot;0&quot; stop-color=&quot;%239BF00B&quot;/&gt;&lt;stop offset=&quot;1&quot; stop-color=&quot;%23107C10&quot;/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;&lt;circle cx=&quot;20&quot; cy=&quot;20&quot; r=&quot;18&quot; fill=&quot;none&quot; stroke=&quot;url(%23lg)&quot; stroke-width=&quot;3&quot;/&gt;&lt;path d=&quot;M20 9 L30 14.5 L30 25.5 L20 31 L10 25.5 L10 14.5 Z&quot; fill=&quot;none&quot; stroke=&quot;%239BF00B&quot; stroke-width=&quot;1.6&quot;/&gt;&lt;path d=&quot;M20 9 L20 20 M20 20 L30 14.5 M20 20 L10 14.5 M20 20 L20 31&quot; stroke=&quot;%2352B043&quot; stroke-width=&quot;1.2&quot; opacity=&quot;.7&quot;/&gt;&lt;/svg&gt;">
+<link rel="stylesheet" href="assets/book.css"><link rel="stylesheet" href="assets/pygments.css">
+</head><body class="" data-page="reference">
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-label="Toggle navigation">&#9776;</button>
+  <a class="brand" href="index.html"><svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9BF00B"/><stop offset="1" stop-color="#107C10"/></linearGradient></defs><circle cx="20" cy="20" r="18" fill="none" stroke="url(#lg)" stroke-width="3"/><path d="M20 9 L30 14.5 L30 25.5 L20 31 L10 25.5 L10 14.5 Z" fill="none" stroke="#9BF00B" stroke-width="1.6"/><path d="M20 9 L20 20 M20 20 L30 14.5 M20 20 L10 14.5 M20 20 L20 31" stroke="#52B043" stroke-width="1.2" opacity=".7"/></svg><span><b>History of</b> Direct3D</span></a>
+  <nav class="topnav"><a href="course.html" class="">Course</a><a href="samples.html" class="">Samples</a><a href="compare.html" class="">Compare eras</a><a href="reference.html" class="active">Reference</a><a href="https://github.com/jasonsandlin/HistoryOfD3D" target="_blank" rel="noopener">GitHub</a></nav>
+  <button class="search-btn" type="button" aria-label="Search"><svg viewBox="0 0 24 24" width="16" height="16"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+</header>
+<div class="progress"><div class="progress-bar"></div></div>
+<div class="layout">
+<aside class="sidebar"><div class="side-title">The course</div><a class="side-link " href="course.html"><span class="num">&#9679;</span><span>Welcome &amp; syllabus</span></a><a class="side-link " href="part-00-orientation.html" data-page="part-00-orientation"><span class="num">0</span><span>Orientation<small>Before 1999</small></span></a><a class="side-link " href="part-01-fixed-function-era.html" data-page="part-01-fixed-function-era"><span class="num">I</span><span>The Fixed-Function Era<small>D3D7 · D3D8</small></span></a><a class="side-link " href="part-02-programmable-shading.html" data-page="part-02-programmable-shading"><span class="num">II</span><span>The Programmable Shading Revolution<small>D3D9</small></span></a><a class="side-link " href="part-03-great-redesign.html" data-page="part-03-great-redesign"><span class="num">III</span><span>The Great Redesign<small>D3D10</small></span></a><a class="side-link " href="part-04-maturity-generality.html" data-page="part-04-maturity-generality"><span class="num">IV</span><span>Maturity &amp; Generality<small>D3D11</small></span></a><a class="side-link " href="part-05-going-explicit-d3d12.html" data-page="part-05-going-explicit-d3d12"><span class="num">V</span><span>Going Explicit: The D3D12 Object Model<small>D3D12 · Tier 1</small></span></a><a class="side-link " href="part-06-feeding-the-gpu.html" data-page="part-06-feeding-the-gpu"><span class="num">VI</span><span>Feeding the GPU: Memory, Copies, and GPU-Driven Work<small>Tier 2 · Tier 3</small></span></a><a class="side-link " href="part-07-image-quality-modern-pipeline.html" data-page="part-07-image-quality-modern-pipeline"><span class="num">VII</span><span>Image Quality &amp; the Modern Pipeline<small>Tier 4 · SM 6</small></span></a><a class="side-link " href="part-08-recording-querying-at-scale.html" data-page="part-08-recording-querying-at-scale"><span class="num">VIII</span><span>Recording &amp; Querying at Scale (Tier 5)<small>Tier 5</small></span></a><a class="side-link " href="part-09-classic-pipeline-mastery.html" data-page="part-09-classic-pipeline-mastery"><span class="num">IX</span><span>Classic Pipeline Mastery (Tier 6)<small>Tier 6</small></span></a><a class="side-link " href="part-10-presentation-devices-resources.html" data-page="part-10-presentation-devices-resources"><span class="num">X</span><span>Presentation, Devices &amp; Advanced Resources (Tiers 7–8)<small>Tier 7 · Tier 8</small></span></a><a class="side-link " href="part-11-the-frontier.html" data-page="part-11-the-frontier"><span class="num">XI</span><span>The Frontier: Where Direct3D Is Heading<small>Tier 9 · Agility SDK</small></span></a><a class="side-link " href="part-12-synthesis.html" data-page="part-12-synthesis"><span class="num">XII</span><span>Synthesis: Seeing the Whole Arc<small>The whole arc</small></span></a><a class="side-link " href="appendices.html" data-page="appendices"><span class="num">A</span><span>Appendices<small>Reference</small></span></a><div class="side-title">Explore</div><a class="side-link " href="samples.html"><span class="num">&#9670;</span><span>Sample gallery</span></a><a class="side-link " href="compare.html"><span class="num">&#9670;</span><span>Compare eras</span></a><a class="side-link active" href="reference.html"><span class="num">&#9670;</span><span>Sample reference</span></a></aside>
+<main class="content"><article class="prose"><h1 id="sample-reference">Sample Reference<a class="anchor" href="#sample-reference" title="Permanent link">#</a></h1>
+<p>Supporting reference for the sample set behind
+<strong><a href="course.html">The Evolution of Direct3D</a></strong> course. The course is
+the main text; this file is the catalog of the programs it teaches from — the
+build matrix, the per-sample tables, and the build/runtime mechanics.</p>
+<p>Every sample is a single-file Win32 app that spins a colored cube. Press <strong>ESC</strong>
+(or close the window) to quit any of them.</p>
+<hr />
+<h2 id="build-status-windows-sdk-10026100-vs-2022x64">Build status (Windows SDK 10.0.26100, VS 2022/x64)<a class="anchor" href="#build-status-windows-sdk-10026100-vs-2022x64" title="Permanent link">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Pipeline</th>
+<th style="text-align: center;">Builds</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D3D7</td>
+<td>DirectDraw7 + D3D7, fixed-function</td>
+<td style="text-align: center;">✅</td>
+<td>Windowed via a DirectDraw clipper + back-buffer blit.</td>
+</tr>
+<tr>
+<td>D3D8</td>
+<td>IDirect3D8, fixed-function</td>
+<td style="text-align: center;">✅</td>
+<td>SDK dropped <code>d3d8.h</code>; uses <strong>vendored</strong> Wine headers (see below).</td>
+</tr>
+<tr>
+<td>D3D9</td>
+<td>IDirect3D9, fixed-function</td>
+<td style="text-align: center;">✅</td>
+<td><code>d3d9.h</code> ships in the SDK <code>shared/</code> folder.</td>
+</tr>
+<tr>
+<td>D3D10</td>
+<td>Device + swap chain, HLSL</td>
+<td style="text-align: center;">✅</td>
+<td>Shaders compiled at runtime with <code>D3DCompile</code>.</td>
+</tr>
+<tr>
+<td>D3D11</td>
+<td>Device/context + swap chain, HLSL</td>
+<td style="text-align: center;">✅</td>
+<td></td>
+</tr>
+<tr>
+<td>D3D12</td>
+<td>Queue + swap chain, root constants</td>
+<td style="text-align: center;">✅</td>
+<td>Minimal single-threaded fence sync; MVP via 32-bit root constants.</td>
+</tr>
+</tbody>
+</table></div>
+<p>All six <strong>compile and link</strong> with the stock Visual Studio 2022 toolchain and the
+Windows 10/11 SDK — no legacy DirectX SDK required. Matrices come from
+<code>DirectXMath</code> (<code>DirectXMath.h</code>), which every SDK ships.</p>
+<h2 id="shader-showcase-samples-d3d9d3d12">Shader showcase samples (D3D9–D3D12)<a class="anchor" href="#shader-showcase-samples-d3d9d3d12" title="Permanent link">#</a></h2>
+<p>Alongside the six base games there are focused samples that each highlight <strong>one
+programmable shader stage</strong> while keeping the rotating-cube theme. Every sample is
+a single-file Win32 app that compiles its HLSL at runtime; folders are named
+<code>&lt;Version&gt;.&lt;ShaderStage&gt;</code>.</p>
+<p><strong>Organization.</strong> Each base cube now lives in a <code>&lt;Version&gt;.Basic</code> folder (e.g.
+<a class="sample-ref" href="sample-D3D7.Basic.html" data-sample="D3D7.Basic"><code>D3D7.Basic</code></a>, <a class="sample-ref" href="sample-D3D12.Basic.html" data-sample="D3D12.Basic"><code>D3D12\Tier1\D3D12.Basic</code></a>). The D3D9/D3D10/D3D11 base cubes and their
+shader-stage samples are grouped under per-version parent folders — <code>D3D9\</code>,
+<code>D3D10\</code>, <code>D3D11\</code> — while D3D12 is organized by tier under <code>D3D12\</code>. Build scripts
+discover samples at any depth, so the folder nesting doesn't change how you build.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Folder</th>
+<th>Stage</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D9.VertexShader.html" data-sample="D3D9.VertexShader"><code>D3D9.VertexShader</code></a></td>
+<td><code>vs_3_0</code></td>
+<td>Vertex shader breathes/deforms the cube.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D9.PixelShader.html" data-sample="D3D9.PixelShader"><code>D3D9.PixelShader</code></a></td>
+<td><code>ps_3_0</code></td>
+<td>Pixel shader paints an animated procedural color.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D10.VertexShader.html" data-sample="D3D10.VertexShader"><code>D3D10.VertexShader</code></a></td>
+<td><code>vs_4_0</code></td>
+<td>Vertex shader twists the cube.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D10.PixelShader.html" data-sample="D3D10.PixelShader"><code>D3D10.PixelShader</code></a></td>
+<td><code>ps_4_0</code></td>
+<td>Pixel shader procedural color.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D10.GeometryShader.html" data-sample="D3D10.GeometryShader"><code>D3D10.GeometryShader</code></a></td>
+<td><code>gs_4_0</code></td>
+<td>Geometry shader explodes triangles along face normals.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D11.VertexShader.html" data-sample="D3D11.VertexShader"><code>D3D11.VertexShader</code></a></td>
+<td><code>vs_5_0</code></td>
+<td>Vertex shader twist.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D11.PixelShader.html" data-sample="D3D11.PixelShader"><code>D3D11.PixelShader</code></a></td>
+<td><code>ps_5_0</code></td>
+<td>Pixel shader procedural color.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D11.GeometryShader.html" data-sample="D3D11.GeometryShader"><code>D3D11.GeometryShader</code></a></td>
+<td><code>gs_5_0</code></td>
+<td>Geometry shader exploding cube.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D11.ComputeShader.html" data-sample="D3D11.ComputeShader"><code>D3D11.ComputeShader</code></a></td>
+<td><code>cs_5_0</code></td>
+<td>Compute shader writes an animated texture (UAV) the cube then samples.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D11.Tessellation.html" data-sample="D3D11.Tessellation"><code>D3D11.Tessellation</code></a></td>
+<td><code>hs_5_0</code> + <code>ds_5_0</code></td>
+<td>Hull/domain shaders subdivide the cube and bulge it toward a sphere (wireframe).</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.VertexShader.html" data-sample="D3D12.VertexShader"><code>D3D12.VertexShader</code></a></td>
+<td><code>vs_5_0</code></td>
+<td>Vertex shader twist (root constants).</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.PixelShader.html" data-sample="D3D12.PixelShader"><code>D3D12.PixelShader</code></a></td>
+<td><code>ps_5_0</code></td>
+<td>Pixel shader procedural color.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.GeometryShader.html" data-sample="D3D12.GeometryShader"><code>D3D12.GeometryShader</code></a></td>
+<td><code>gs_5_0</code></td>
+<td>Geometry shader exploding cube.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.ComputeShader.html" data-sample="D3D12.ComputeShader"><code>D3D12.ComputeShader</code></a></td>
+<td><code>cs_5_0</code></td>
+<td>Compute PSO writes a UAV texture, graphics PSO samples it via a descriptor table.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Tessellation.html" data-sample="D3D12.Tessellation"><code>D3D12.Tessellation</code></a></td>
+<td><code>hs_5_0</code> + <code>ds_5_0</code></td>
+<td>Tessellation PSO subdivides + bulges the cube (wireframe).</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.MeshShader.html" data-sample="D3D12.MeshShader"><code>D3D12.MeshShader</code></a></td>
+<td><code>ms_6_5</code></td>
+<td>Mesh shader generates the whole cube on the GPU — no vertex/index buffers or input assembler.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.AmplificationShader.html" data-sample="D3D12.AmplificationShader"><code>D3D12.AmplificationShader</code></a></td>
+<td><code>as_6_5</code> + <code>ms_6_5</code></td>
+<td>Amplification shader turns one dispatch into a ring of orbiting cubes, each emitted by a mesh group.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.RayTracing.html" data-sample="D3D12.RayTracing"><code>D3D12.RayTracing</code></a></td>
+<td><code>lib_6_3</code> (raygen + miss + closest-hit)</td>
+<td>Full DXR pipeline: a BLAS/TLAS cube ray-traced per pixel; the TLAS instance is rotated each frame.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tessellation is shown as a single combined <strong>hull + domain</strong> sample per API. All 18
+samples build with the stock toolchain and their embedded HLSL was validated with
+<code>fxc.exe</code> (SM 4/5) or <code>dxc.exe</code> (SM 6). Build any of them the same way as the base
+games, e.g. <code>.\build-all.ps1 -Only D3D11.ComputeShader</code>.</p>
+<h3 id="shader-model-6-samples-mesh-amplification-ray-tracing">Shader Model 6 samples (mesh / amplification / ray tracing)<a class="anchor" href="#shader-model-6-samples-mesh-amplification-ray-tracing" title="Permanent link">#</a></h3>
+<p><a class="sample-ref" href="sample-D3D12.MeshShader.html" data-sample="D3D12.MeshShader"><code>D3D12.MeshShader</code></a>, <a class="sample-ref" href="sample-D3D12.AmplificationShader.html" data-sample="D3D12.AmplificationShader"><code>D3D12.AmplificationShader</code></a>, and <a class="sample-ref" href="sample-D3D12.RayTracing.html" data-sample="D3D12.RayTracing"><code>D3D12.RayTracing</code></a> use
+<strong>Shader Model 6.3/6.5</strong>, which the legacy <code>D3DCompile</code>/<code>fxc</code> path cannot target.
+They compile their HLSL at runtime with <strong>DXC</strong> by loading <code>dxcompiler.dll</code> (and
+<code>dxil.dll</code> for signing) — the app searches the Windows SDK <code>bin\&lt;ver&gt;\x64</code> folders,
+so no extra setup is needed on a machine with the SDK installed. Amplification
+shaders only exist to feed a mesh shader, so that sample combines <strong>AS + MS</strong>; ray
+tracing's raygen, miss, and closest-hit stages are all part of one pipeline, so it
+is a single combined sample. These three need a <strong>mesh-shader / DXR-capable GPU</strong>
+(or a recent WARP) at runtime and show a clean "init failed" dialog otherwise; they
+still build everywhere.</p>
+<h2 id="gui-sample-nuklear">GUI sample (Nuklear)<a class="anchor" href="#gui-sample-nuklear" title="Permanent link">#</a></h2>
+<p><a class="sample-ref" href="sample-D3D12.Nuklear.html" data-sample="D3D12.Nuklear"><code>D3D12.Nuklear</code></a> shows an immediate-mode GUI rendered on a Direct3D 12 backend
+using <strong><a href="https://github.com/Immediate-Mode-UI/Nuklear">Nuklear</a></strong> (public-domain,
+single-header). It renders Nuklear's full widget <em>overview</em> — buttons, sliders,
+checkboxes, radio buttons, combo boxes, a color picker, tree/tab views, charts,
+text edit, property widgets, groups, and popups — plus a small control window.</p>
+<p>Vendored from the Nuklear repo into <code>third_party/nuklear/</code>: <code>nuklear.h</code>, the
+D3D12 backend <code>nuklear_d3d12.h</code> with its precompiled shader headers
+(<code>nuklear_d3d12_{vertex,pixel}_shader.h</code>). The <code>overview.c</code> widget demo lives in
+the sample folder. The backend uses C-style COM (<code>COBJMACROS</code>), so this sample
+is written in <strong>C</strong> (<code>main.c</code>) and <code>build-all.ps1</code> compiles it as C (<code>/Tc</code>). It
+links <code>d3d12.lib</code>, <code>dxgi.lib</code>, and <code>dxguid.lib</code> via <code>#pragma comment</code>, and
+requires <strong>Windows SDK &gt;= 10.0.22000.0</strong> (a lower version has a known bug that
+crashes the backend). Build it like any other sample:
+<code>.\build-all.ps1 -Only D3D12.Nuklear</code>.</p>
+<h2 id="learning-d3d12-annotated-samples-with-a-nuklear-ui">Learning D3D12 (annotated samples with a Nuklear UI)<a class="anchor" href="#learning-d3d12-annotated-samples-with-a-nuklear-ui" title="Permanent link">#</a></h2>
+<p>A growing set of teaching samples, each a single self-contained <code>main.c</code> built
+on the shared Nuklear GUI backend (<code>third_party/nuklear/</code>). Each renders a
+rotating cube plus a Nuklear panel that both explains and shows the live state
+of the D3D12 feature it focuses on, with interactive controls. They are written
+in C (the Nuklear backend requires C-style COM) and compute matrices with a tiny
+local row-vector helper (DirectXMath is C++-only).</p>
+<p>Complex samples log errors to a <code>Cube&lt;Sample&gt;.log</code> file (written next to the
+working directory) instead of popping message-box dialogs, so failures are easy
+to read after the fact.</p>
+<p><strong>Directory layout.</strong> All D3D12 samples now live under <code>RotatingCubes\D3D12\</code>,
+grouped entirely by tier in <code>D3D12\Tier1\ .. D3D12\Tier9\</code> — <code>Tier9</code> being the
+Agility-SDK / preview "frontier" tier — including the base
+cube, the shader-showcase samples, the Shader Model 6 samples, and the Nuklear
+GUI sample (each is placed in the tier that matches its learning level):</p>
+<div class="flow"><div class="flow-bar"><span>Flow</span></div><pre><code>RotatingCubes\D3D12\
+  Tier1\  D3D12.Basic, D3D12.VertexShader, D3D12.PixelShader, D3D12.Nuklear,
+          D3D12.Fundamentals, D3D12.Textures, D3D12.TripleBuffering,
+          D3D12.ConstantBuffers, D3D12.RootSignatures
+  Tier2\  D3D12.GeometryShader, D3D12.Tessellation,
+          D3D12.PlacedResources, D3D12.CopyQueue, D3D12.IndirectDraw
+  Tier3\  D3D12.ComputeShader, D3D12.ComputeAsync, D3D12.Bindless, D3D12.DeferredMRT
+  Tier4\  D3D12.MeshShader, D3D12.AmplificationShader, D3D12.RayTracing,
+          D3D12.ShadowMap, D3D12.MSAA, D3D12.VariableRateShading
+  Tier5\  D3D12.MultiThreadedRecording, D3D12.Bundles, D3D12.Queries, D3D12.Predication
+  Tier6\  D3D12.Instancing, D3D12.Blending, D3D12.Stencil
+  Tier7\  D3D12.HDR, D3D12.MultiAdapter
+  Tier8\  D3D12.PipelineLibraries, D3D12.ReservedResources, D3D12.Debugging
+  Tier9\  D3D12.SamplerFeedback, D3D12.DynamicResources, D3D12.WorkGraphs,
+          D3D12.EnhancedBarriers, D3D12.DirectStorage, D3D12.LinearAlgebra,
+          D3D12.RayTracing12, D3D12.PartialPrograms</code></pre></div>
+<p><code>build-all.ps1</code> discovers samples at any depth, so <code>-Only &lt;FolderName&gt;</code> still
+works regardless of nesting (e.g. <code>-Only D3D12.Textures</code>). The shader-showcase,
+Shader Model 6, and Nuklear samples are described in their own sections above;
+the tables below cover the annotated learning samples.</p>
+<p><strong>Tier 1 — fundamentals, resources &amp; pipeline basics</strong></p>
+<p>Also includes the base fixed-function cube (<a class="sample-ref" href="sample-D3D12.Basic.html" data-sample="D3D12.Basic"><code>D3D12.Basic</code></a>), <a class="sample-ref" href="sample-D3D12.VertexShader.html" data-sample="D3D12.VertexShader"><code>D3D12.VertexShader</code></a>,
+<a class="sample-ref" href="sample-D3D12.PixelShader.html" data-sample="D3D12.PixelShader"><code>D3D12.PixelShader</code></a>, and the <a class="sample-ref" href="sample-D3D12.Nuklear.html" data-sample="D3D12.Nuklear"><code>D3D12.Nuklear</code></a> GUI baseline.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Fundamentals.html" data-sample="D3D12.Fundamentals"><code>D3D12.Fundamentals</code></a></td>
+<td>The core objects: device, command queue/allocator/list, swap chain, RTV/DSV descriptor heaps, resource barriers, the fence sync model, root signature, and PSO. Live panel shows the fence value (CPU vs GPU-completed), back-buffer index, and barrier count each frame. Controls: pause, speed, wireframe (second PSO), vsync, clear color.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Textures.html" data-sample="D3D12.Textures"><code>D3D12.Textures</code></a></td>
+<td>The full texture-upload path: a DEFAULT-heap texture staged from an UPLOAD buffer via <code>GetCopyableFootprints</code> + <code>CopyTextureRegion</code>, the <code>COPY_DEST -&gt; PIXEL_SHADER_RESOURCE</code> barrier, an SRV in a shader-visible heap bound through a root descriptor table, and static <strong>point (s0)</strong> / <strong>linear (s1)</strong> samplers.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.TripleBuffering.html" data-sample="D3D12.TripleBuffering"><code>D3D12.TripleBuffering</code></a></td>
+<td>Multiple frames in flight: N back buffers + per-frame command allocators + a fence value per frame, so the CPU stops blocking on every Present and instead only waits when it laps the GPU.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.ConstantBuffers.html" data-sample="D3D12.ConstantBuffers"><code>D3D12.ConstantBuffers</code></a></td>
+<td>An UPLOAD constant buffer bound via a CBV descriptor table (vs. root constants), 256-byte CBV alignment, and per-frame CB regions to avoid overwriting data the GPU is still reading.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.RootSignatures.html" data-sample="D3D12.RootSignatures"><code>D3D12.RootSignatures</code></a></td>
+<td>The three root-parameter kinds side by side — root constants, root descriptors (CBV), and descriptor tables — plus how root-signature layout affects binding cost.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 2 — memory, submission &amp; extra geometry stages</strong></p>
+<p>Also includes <a class="sample-ref" href="sample-D3D12.GeometryShader.html" data-sample="D3D12.GeometryShader"><code>D3D12.GeometryShader</code></a> and <a class="sample-ref" href="sample-D3D12.Tessellation.html" data-sample="D3D12.Tessellation"><code>D3D12.Tessellation</code></a> (the optional
+geometry-pipeline stages), described in the shader-showcase section.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.PlacedResources.html" data-sample="D3D12.PlacedResources"><code>D3D12.PlacedResources</code></a></td>
+<td>Explicit heaps + <code>CreatePlacedResource</code>: sub-allocating several resources from one heap, resource-heap tiers, and aliasing considerations.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.CopyQueue.html" data-sample="D3D12.CopyQueue"><code>D3D12.CopyQueue</code></a></td>
+<td>A dedicated COPY queue uploading data in parallel with rendering, with a cross-queue fence so the graphics queue waits for the copy to finish.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.IndirectDraw.html" data-sample="D3D12.IndirectDraw"><code>D3D12.IndirectDraw</code></a></td>
+<td><code>ExecuteIndirect</code> with a command signature: draw arguments sourced from a GPU buffer so the GPU drives draw counts/parameters without CPU round-trips.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 3 — GPU work &amp; multi-pass</strong></p>
+<p>Also includes <a class="sample-ref" href="sample-D3D12.ComputeShader.html" data-sample="D3D12.ComputeShader"><code>D3D12.ComputeShader</code></a> (a graphics + compute PSO pair), described
+in the shader-showcase section.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.ComputeAsync.html" data-sample="D3D12.ComputeAsync"><code>D3D12.ComputeAsync</code></a></td>
+<td>An async COMPUTE queue running a compute shader (RWStructuredBuffer via a root UAV) that animates the cube vertices; the graphics queue <code>Wait()</code>s on the compute fence before drawing.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Bindless.html" data-sample="D3D12.Bindless"><code>D3D12.Bindless</code></a></td>
+<td>SM5.1 dynamic indexing: an unbounded descriptor-table range (<code>Texture2D g_tex[]</code>) with a per-draw root-constant index selecting one of many textures — no re-binding between draws.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.DeferredMRT.html" data-sample="D3D12.DeferredMRT"><code>D3D12.DeferredMRT</code></a></td>
+<td>A G-buffer with Multiple Render Targets (albedo + normal in one pass), then a fullscreen-triangle lighting pass that samples them. Combo view of lit/albedo/normal.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 4 — advanced rendering &amp; the modern pipeline</strong></p>
+<p>Also includes the Shader Model 6 samples <a class="sample-ref" href="sample-D3D12.MeshShader.html" data-sample="D3D12.MeshShader"><code>D3D12.MeshShader</code></a>,
+<a class="sample-ref" href="sample-D3D12.AmplificationShader.html" data-sample="D3D12.AmplificationShader"><code>D3D12.AmplificationShader</code></a>, and <a class="sample-ref" href="sample-D3D12.RayTracing.html" data-sample="D3D12.RayTracing"><code>D3D12.RayTracing</code></a>, described in the Shader
+Model 6 section.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.ShadowMap.html" data-sample="D3D12.ShadowMap"><code>D3D12.ShadowMap</code></a></td>
+<td>Two-pass shadow mapping: render depth from the light's POV into an <code>R32_TYPELESS</code> shadow map (D32 DSV + R32 SRV), then sample it with a <code>SamplerComparisonState</code> / <code>SampleCmpLevelZero</code>. Depth-bias slider.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.MSAA.html" data-sample="D3D12.MSAA"><code>D3D12.MSAA</code></a></td>
+<td>A multisampled render target (2x/4x/8x, capability-gated via <code>CheckFeatureSupport</code>) resolved into the back buffer with <code>ResolveSubresource</code>. Live sample-count selector.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.VariableRateShading.html" data-sample="D3D12.VariableRateShading"><code>D3D12.VariableRateShading</code></a></td>
+<td>Per-draw VRS (<code>RSSetShadingRate</code> on <code>ID3D12GraphicsCommandList5</code>), capability-gated on <code>D3D12_FEATURE_D3D12_OPTIONS6</code>. A fine procedural pattern makes coarse rates (2x2, 4x4) visibly blocky.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 5 — recording &amp; querying at scale</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.MultiThreadedRecording.html" data-sample="D3D12.MultiThreadedRecording"><code>D3D12.MultiThreadedRecording</code></a></td>
+<td>Parallel command-list recording: each worker thread records a slice of a cube grid into its own allocator + list, coordinated with Win32 events, then all lists are submitted in order with one <code>ExecuteCommandLists</code>. The concrete payoff of the queue/allocator/list split.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Bundles.html" data-sample="D3D12.Bundles"><code>D3D12.Bundles</code></a></td>
+<td>A <code>D3D12_COMMAND_LIST_TYPE_BUNDLE</code> recorded once at init and replayed each frame with <code>ExecuteBundle</code>; the direct list sets the inherited root signature + root constants. Toggle between bundle replay and inline re-recording.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Queries.html" data-sample="D3D12.Queries"><code>D3D12.Queries</code></a></td>
+<td>Timestamp queries (GPU pass duration via <code>GetTimestampFrequency</code>) and pipeline-statistics queries (IA vertices, VS/PS invocations) resolved to a readback buffer and shown live.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Predication.html" data-sample="D3D12.Predication"><code>D3D12.Predication</code></a></td>
+<td>Occlusion-query-driven predication: a <code>BINARY_OCCLUSION</code> query resolves into a predicate buffer, and <code>SetPredication(..., EQUAL_ZERO)</code> makes the GPU skip the expensive draw when fully occluded — no CPU round-trip.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 6 — classic pipeline mastery</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Instancing.html" data-sample="D3D12.Instancing"><code>D3D12.Instancing</code></a></td>
+<td><code>DrawIndexedInstanced</code> with a per-instance vertex slot (<code>PER_INSTANCE_DATA</code>, offset + tint), rendering a whole grid of cubes in a single draw call. Instance-count slider.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Blending.html" data-sample="D3D12.Blending"><code>D3D12.Blending</code></a></td>
+<td>Alpha vs. additive blend PSOs, back-to-front sorting (toggle to see sorting artifacts), and depth-write off for transparents. Shows why transparency order matters.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Stencil.html" data-sample="D3D12.Stencil"><code>D3D12.Stencil</code></a></td>
+<td>A two-pass stencil mask (<code>D24_UNORM_S8_UINT</code>): pass 1 writes stencil in a mask shape, pass 2 draws the cube only where <code>StencilFunc == EQUAL</code> — the mirror/portal/decal building block.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 7 — presentation &amp; devices</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.HDR.html" data-sample="D3D12.HDR"><code>D3D12.HDR</code></a></td>
+<td>An HDR10 swap chain (<code>R10G10B10A2</code> + <code>ST2084</code> color space via <code>IDXGISwapChain3::SetColorSpace1</code>), <code>CheckColorSpaceSupport</code> negotiation, <code>IDXGIOutput6</code> luminance query, and a paper-white/brightness control. Graceful SDR fallback.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.MultiAdapter.html" data-sample="D3D12.MultiAdapter"><code>D3D12.MultiAdapter</code></a></td>
+<td>Explicit adapter enumeration (<code>IDXGIFactory6::EnumAdapterByGpuPreference</code> with fallback), listing each adapter's VRAM/vendor/flags, and selecting the high-performance GPU to render on. Explains cross-adapter shared resources.</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 8 — big resources &amp; staying correct</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.PipelineLibraries.html" data-sample="D3D12.PipelineLibraries"><code>D3D12.PipelineLibraries</code></a></td>
+<td>Caching compiled PSOs to disk with <code>ID3D12PipelineLibrary</code> (Load/Store + Serialize to a <code>.cache</code> file); logs cold-create vs cached-load timing so you can see the first-run-compiles-then-caches behavior.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.ReservedResources.html" data-sample="D3D12.ReservedResources"><code>D3D12.ReservedResources</code></a></td>
+<td>Reserved (tiled/sparse) textures: <code>CreateReservedResource</code> + <code>UpdateTileMappings</code> binding virtual tiles to a small heap, capability-gated on <code>TiledResourcesTier</code> with a committed-resource fallback.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.Debugging.html" data-sample="D3D12.Debugging"><code>D3D12.Debugging</code></a></td>
+<td>The validation tooling that replaces the driver's safety net: debug layer, GPU-based validation, DRED, live <code>ID3D12InfoQueue</code> message drain, PIX markers (encoded by hand, no <code>pix3.h</code>), and a button that deliberately triggers a benign validation warning. A <strong>DirectX Dump Files (preview)</strong> panel explains console-style GPU crash dumps and probes <code>D3D12_FEATURE_DUMP_FILE</code> / <code>ID3D12DevicePreview</code>, reporting "not available" on the retail runtime (the API ships in Agility SDK 1.721-preview but isn't usable yet).</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Tier 9 (Frontier) — the Agility-SDK edge (DirectX 12's 10-year milestones)</strong></p>
+<p>These map to the features celebrated in <em>"Celebrating 10 Years of DirectX 12."</em> Each queries its capability tier at runtime and falls back gracefully (still renders a cube) when the GPU/driver lacks support, logging the reason to a <code>.log</code> file.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>Teaches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.SamplerFeedback.html" data-sample="D3D12.SamplerFeedback"><code>D3D12.SamplerFeedback</code></a></td>
+<td>DirectX 12 Ultimate Sampler Feedback: a paired feedback map (<code>CreateSamplerFeedbackUnorderedAccessView</code>, <code>DXGI_FORMAT_SAMPLER_FEEDBACK_*</code>) records <em>which</em> texture mips a shader actually sampled (via <code>WriteSamplerFeedback</code> in SM6.5) — the basis for texture streaming and texture-space shading. Gated on <code>SamplerFeedbackTier</code>.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.DynamicResources.html" data-sample="D3D12.DynamicResources"><code>D3D12.DynamicResources</code></a></td>
+<td>Shader Model 6.6 dynamic resources / bindless: <code>HEAP_DIRECTLY_INDEXED</code> root flags let HLSL index <code>ResourceDescriptorHeap[]</code> / <code>SamplerDescriptorHeap[]</code> directly with no descriptor tables in the root signature. Gated on shader model + resource-binding tier.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.WorkGraphs.html" data-sample="D3D12.WorkGraphs"><code>D3D12.WorkGraphs</code></a></td>
+<td>GPU-driven Work Graphs (2024): an executable state object of shader nodes launched with <code>DispatchGraph</code> (<code>ID3D12GraphicsCommandList10</code>) so the GPU spawns its own follow-on work. Gated on <code>WorkGraphsTier</code>.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.EnhancedBarriers.html" data-sample="D3D12.EnhancedBarriers"><code>D3D12.EnhancedBarriers</code></a></td>
+<td>The modern barrier model: <code>ID3D12GraphicsCommandList7::Barrier</code> with <code>D3D12_TEXTURE_BARRIER</code> groups splitting SYNC / ACCESS / LAYOUT for precise, less over-synchronizing transitions. Gated on <code>EnhancedBarriersSupported</code>, with a legacy <code>ResourceBarrier</code> fallback.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.DirectStorage.html" data-sample="D3D12.DirectStorage"><code>D3D12.DirectStorage</code></a></td>
+<td>Fast asset streaming (2022): <code>IDStorageFactory</code> → queue → request → submit → fence, loading bytes straight from disk into a D3D12 resource. Uses the out-of-band <code>Microsoft.Direct3D.DirectStorage</code> NuGet SDK (vendored locally, git-ignored).</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.RayTracing12.html" data-sample="D3D12.RayTracing12"><code>D3D12.RayTracing12</code></a></td>
+<td><strong>DXR 1.2 / Shader Model 6.9.</strong> Opacity micromaps cut a different hole into each cube face: 12 OC1 4-state OMMs in an OMM array built with <code>BuildRaytracingAccelerationStructure</code>, linked to the BLAS triangles, pipeline flag <code>ALLOW_OPACITY_MICROMAPS</code>. <code>O</code> cycles OMM 2-state (0 any-hit calls) / OMM 4-state (~4K) / any-hit alpha test (~162K) / opaque. <strong>Shader Execution Reordering</strong>: <code>dx::HitObject::TraceRay</code> → <code>dx::MaybeReorderThread(hit, faceHint, 3)</code> → <code>HitObject::Invoke</code>, toggled with <code>S</code>, with the <code>OPTIONS22.ShaderExecutionReorderingActuallyReorders</code> cap and GPU timestamps in the title. Hardware → preview WARP → DXR 1.0 fallback.</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.LinearAlgebra.html" data-sample="D3D12.LinearAlgebra"><code>D3D12.LinearAlgebra</code></a></td>
+<td><strong>SM6.10 preview.</strong> GPU-accelerated matrix math for <em>neural rendering</em> (<code>#include &lt;dx/linalg.h&gt;</code>, <code>cs_6_10</code>): a thread-scope F16 matrix × <strong>SM6.9 long-vector</strong> <code>Multiply</code> (inference) plus <strong>VectorAccumulate</strong> (<code>InterlockedAccumulate</code>), which sums 256 threads' gradients atomically (training). Both results are checked against the CPU and charted on the cube's faces. Gated on <code>D3D12_FEATURE_LINEAR_ALGEBRA_SUPPORT</code>. Needs the <strong>preview</strong> Agility SDK (1.721.2-preview) + preview DXC + Developer Mode, all vendored by <code>fetch-deps.ps1</code>. Runs on hardware when the driver exposes LinAlg, otherwise on the vendored <strong>preview WARP</strong> (<code>--hw</code> / <code>--warp</code> override).</td>
+</tr>
+<tr>
+<td><a class="sample-ref" href="sample-D3D12.PartialPrograms.html" data-sample="D3D12.PartialPrograms"><code>D3D12.PartialPrograms</code></a></td>
+<td><strong>1.721 preview.</strong> Partial graphics programs: one VS and one PS compiled once as pre-rasterization and pixel-shader partials in a state-object <strong>collection</strong>, then late-linked (blend / rasterizer / depth) into five generic programs with <code>AddToStateObject</code>. It draws opaque, additive and alpha cubes with <code>SetProgram</code>; <code>P</code> swaps in equivalent classic PSOs, and the title compares compile, link and first-draw times. The basis for Advanced Shader Delivery. Needs <code>D3D12StateObjectsExperiment</code>; falls back to preview WARP, then to a classic PSO.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="building">Building<a class="anchor" href="#building" title="Permanent link">#</a></h2>
+<p><strong>Option A — build everything (recommended):</strong></p>
+<div class="codeblock"><div class="codeblock-bar"><span>PowerShell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre class="hl"><code><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="p">.\</span><span class="n">build-all</span><span class="p">.</span><span class="n">ps1</span>
+<span class="c"># or a single one:</span>
+<span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="p">.\</span><span class="n">build-all</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Only</span> <span class="n">D3D11</span><span class="p">.</span><span class="n">Basic</span>
+</code></pre></div>
+<p><code>build-all.ps1</code> imports the VC x64 environment and invokes <code>cl.exe</code> directly.
+It writes each sample's <code>Cube&lt;Version&gt;.exe</code> and all intermediates into a
+per-sample <code>Out\</code> subfolder (e.g. <a class="sample-ref" href="sample-D3D11.Basic.html" data-sample="D3D11.Basic"><code>D3D11\D3D11.Basic\Out\CubeD3D11.Basic.exe</code></a>, or a nested
+<a class="sample-ref" href="sample-D3D12.Textures.html" data-sample="D3D12.Textures"><code>D3D12\Tier1\D3D12.Textures\Out\CubeD3D12.Textures.exe</code></a>), which is <code>.gitignore</code>d
+so build products never clutter the tree. Samples are auto-discovered at any
+depth, so <code>-Only &lt;FolderName&gt;</code> works no matter how a sample is nested.</p>
+<p><strong>Option B — per project:</strong></p>
+<div class="codeblock"><div class="codeblock-bar"><span>Batch</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre class="hl"><code><span class="k">cd</span> D3D11\D3D11.Basic
+build.bat
+</code></pre></div>
+<p><code>build.bat</code> locates Visual Studio with <code>vswhere</code>, calls <code>vcvars64.bat</code>, then
+<code>cl</code>. The output is <code>Cube&lt;Version&gt;.exe</code> in that folder.</p>
+<blockquote>
+<p>Tip: <code>%ProgramFiles(x86)%</code> contains parentheses that break <code>for /f (...)</code>
+parsing, so <code>build.bat</code> copies it to a temp variable first. If you ever see a
+build compiling unrelated files, another process on the machine is hooking
+<code>cl.exe</code>; <code>build-all.ps1</code> avoids that by calling <code>cl.exe</code> by full path.</p>
+</blockquote>
+<h2 id="runtime-notes">Runtime notes<a class="anchor" href="#runtime-notes" title="Permanent link">#</a></h2>
+<ul>
+<li><strong>D3D7 / D3D8</strong> need the legacy Direct3D runtimes, which modern Windows ships
+  <strong>only as 32-bit DLLs</strong> (<code>SysWOW64\d3dim700.dll</code>, <code>SysWOW64\d3d8.dll</code>). The
+  default x64 build therefore shows a clean "init failed" dialog; build an <strong>x86</strong>
+  copy (<code>vcvars32.bat</code>, then <code>cl /EHsc /I. main.cpp user32.lib</code>) and it runs.
+  <code>tools\capture-screenshots.ps1</code> does this automatically (into <code>Out\x86\</code>).</li>
+<li><strong>D3D10–D3D12</strong> run on the WARP software rasterizer if no GPU driver is
+  available, but need a desktop session (they won't render over a headless
+  service).</li>
+</ul>
+<h2 id="d3d8-vendored-headers">D3D8 vendored headers<a class="anchor" href="#d3d8-vendored-headers" title="Permanent link">#</a></h2>
+<p><a class="sample-ref" href="sample-D3D8.Basic.html" data-sample="D3D8.Basic"><code>D3D8.Basic/d3d8.h</code></a>, <code>d3d8types.h</code>, and <code>d3d8caps.h</code> are the MinGW/Wine reimplementation
+(LGPL, © Jason Edmeades / the Wine project), included because the modern Windows
+SDK no longer ships D3D8 headers. <code>main.cpp</code> adds two small MSVC compat shims
+(<code>__MSABI_LONG</code>, <code>WINBOOL</code>) and resolves <code>Direct3DCreate8</code> at runtime via
+<code>LoadLibrary("d3d8.dll")</code>, so no D3D8 import library is needed.</p></article>
+<div class="pager"><a class="pn prev" href="samples.html"><small>← Previous</small><span>Sample gallery</span></a></div>
+<footer class="foot">The History of Direct3D · an Xbox side project · <kbd>←</kbd>/<kbd>→</kbd> page · <kbd>F</kbd> fullscreen · <kbd>/</kbd> search</footer></main>
+<nav class="toc"><div class="toc-title">On this page</div><a class="toc-l2" href="#build-status-windows-sdk-10026100-vs-2022x64">Build status (Windows SDK 10.0.26100, VS 2022/x64)</a><a class="toc-l2" href="#shader-showcase-samples-d3d9d3d12">Shader showcase samples (D3D9–D3D12)</a><a class="toc-l3" href="#shader-model-6-samples-mesh-amplification-ray-tracing">Shader Model 6 samples (mesh / amplification / ray tracing)</a><a class="toc-l2" href="#gui-sample-nuklear">GUI sample (Nuklear)</a><a class="toc-l2" href="#learning-d3d12-annotated-samples-with-a-nuklear-ui">Learning D3D12 (annotated samples with a Nuklear UI)</a><a class="toc-l2" href="#building">Building</a><a class="toc-l2" href="#runtime-notes">Runtime notes</a><a class="toc-l2" href="#d3d8-vendored-headers">D3D8 vendored headers</a></nav>
+</div>
+<div class="search-overlay" hidden><div class="search-panel"><input type="search" placeholder="Search the course and samples…" aria-label="Search"><div class="search-results"></div><div class="search-hint"><kbd>↑</kbd><kbd>↓</kbd> navigate · <kbd>Enter</kbd> open · <kbd>Esc</kbd> close</div></div></div>
+<div class="lightbox" hidden><img alt=""><div class="lightbox-cap"></div></div>
+<div class="hovercard" hidden></div>
+<script src="assets/data.js"></script><script src="assets/book.js"></script>
+</body></html>
