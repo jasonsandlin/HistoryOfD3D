@@ -9,12 +9,14 @@
 # branch gh-pages, folder / (root).
 param([string]$Dest = "C:\git\HistoryOfD3D", [switch]$Push)
 
-$ErrorActionPreference = "Stop"
+# Native git writes progress/expected errors to stderr; with "Stop", Windows PowerShell
+# 5.1 turns those into terminating errors. Failures are caught via $LASTEXITCODE instead.
+$ErrorActionPreference = "Continue"
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 if (-not (Test-Path (Join-Path $Dest ".git"))) { throw "$Dest is not a git checkout." }
 $site = Join-Path $env:TEMP "HistoryOfD3D-gh-pages"
 
-function Git { & git -C $Dest @args; if ($LASTEXITCODE -ne 0) { throw "git $args failed" } }
+function Invoke-Git { & git.exe -C $Dest @args; if ($LASTEXITCODE -ne 0) { throw "git $args failed" } }
 
 Write-Host "== Building the web edition"
 & python (Join-Path $root "tools\build_book.py") --web
@@ -29,9 +31,9 @@ try {
     $haveLocal = $LASTEXITCODE -eq 0
     & git -C $Dest show-ref -q --verify refs/remotes/origin/gh-pages
     $haveRemote = $LASTEXITCODE -eq 0
-    if ($haveLocal) { Git worktree add -q $site gh-pages }
-    elseif ($haveRemote) { Git worktree add -q -b gh-pages $site origin/gh-pages }
-    else { Git worktree add -q --orphan -b gh-pages $site }
+    if ($haveLocal) { Invoke-Git worktree add -q $site gh-pages }
+    elseif ($haveRemote) { Invoke-Git worktree add -q -b gh-pages $site origin/gh-pages }
+    else { Invoke-Git worktree add -q --orphan -b gh-pages $site }
 
     Get-ChildItem $site -Force | Where-Object Name -ne ".git" | Remove-Item -Recurse -Force
     Copy-Item (Join-Path $root "book\*") $site -Recurse -Force

@@ -49,8 +49,8 @@ if (-not (Test-Path (Join-Path $root "audio\TheHistoryOfDirect3D.m4b"))) {
 function Rel($p) { $p.Substring($root.Length + 1) }
 function Include($f) {
     $r = Rel $f.FullName
-    # audio\*.m4b/.srt: the book already carries a copy in book\assets\audio.
-    if ($r -match '^audio\\[^\\]+\.(m4b|srt)$') { return $false }
+    # audio\*.m4b/.srt and audio\chapters\: the book already carries copies in book\assets\audio.
+    if ($r -match '^audio\\([^\\]+\.(m4b|srt)|chapters\\.*)$') { return $false }
     if ($r -match '^(dist|audio\\work)(\\|$)' -or $r -match '(^|\\)(__pycache__|\.git)(\\|$)') { return $false }
     if ($f.Name -match '\.(log|obj|pdb|ilk|exp|lib|partial\.\w+)$' -or $f.Name -eq "DirectStorageTexture.bin") { return $false }
     if ($r -match '\\Out\\') {
