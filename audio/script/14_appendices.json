@@ -1,0 +1,432 @@
+{
+ "title": "Appendices",
+ "hash": "b167e19118cd4b19",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Appendices."
+  },
+  {
+   "id": "1",
+   "text": "Reference material to support the main lectures: how to build and run the samples, a glossary, the \"same concept, many names\" terminology map, and where to go next."
+  },
+  {
+   "id": "2",
+   "text": "Appendix A — Build & Run Cheat-Sheet."
+  },
+  {
+   "id": "3",
+   "text": "All samples build with a stock Visual Studio + Windows SDK toolchain on x64. The driver script build-all [ps1](/pˌiˌɛs wˈʌn/) at the repo root imports the VC x64 environment and invokes cl [exe](/ˈɛksi/) directly (more reliable on shared machines than cmd c build bat)."
+  },
+  {
+   "id": "4",
+   "text": "Build everything:"
+  },
+  {
+   "id": "5",
+   "text": "Build one sample (pass the leaf folder name — it's found at any depth):"
+  },
+  {
+   "id": "6",
+   "text": "Or do everything at once: setup [ps1](/pˌiˌɛs wˈʌn/) checks the toolchain, fetches the preview SDKs, builds every sample (plus the 32-bit D3D7 D3D8 copies) and enables the HTML book's Run sample buttons:"
+  },
+  {
+   "id": "7",
+   "text": "Where output goes. Each sample builds into its own Out subfolder (e g. D3D12 Tier1 D3D12 Fundamentals Out CubeD3D12 Fundamentals [exe](/ˈɛksi/)). Out is .gitignored so build products never clutter the tree. Run the .exe from that folder."
+  },
+  {
+   "id": "8",
+   "text": "Notes & gotchas. - The D3D12 samples compile as C ( Tc, COBJMACROS), so COM calls read id3d12x Method(obj, ...). The era cubes (D3D7–D3D11) are C++ ( [EHsc](/ˌiˌAʧˌɛssˈi/)). - Complex D3D12 samples write a log file (Cube<Sample>.log) next to the [exe](/ˈɛksi/) for debugging instead of popping message boxes — read it if a sample exits unexpectedly. - D3D7 D3D8 build as x64 but the legacy runtimes they need only ship as 32-bit DLLs on modern Windows, so the x64 [exe](/ˈɛksi/) reports \"init failed\". Build them from a vcvars32 bat prompt (cl [EHsc](/ˌiˌAʧˌɛssˈi/) I. main [cpp](/sˌipˌipˈi/) user32 lib) to run them; tools capture-screenshots [ps1](/pˌiˌɛs wˈʌn/) does this automatically into Out x86 . - The preview Tier 9 samples (D3D12 RayTracing12, D3D12 LinearAlgebra, D3D12 PartialPrograms) need their dependencies first: run the sample's fetch-deps [ps1](/pˌiˌɛs wˈʌn/) once (Agility SDK 1.721-preview, preview DXC, preview [WARP](/wˈɔɹp/)). build-all [ps1](/pˌiˌɛs wˈʌn/) then copies the runtimes into Out so the [exe](/ˈɛksi/) runs from there. They need Developer Mode enabled. - Regenerating the HTML book: tools make-book [ps1](/pˌiˌɛs wˈʌn/) builds every sample, captures screenshots animations (tools capture-screenshots [ps1](/pˌiˌɛs wˈʌn/)) and renders book (tools build book py; needs pip install markdown pygments pillow). - Re-narrating the audiobook: after editing docs , run python tools narrate book py (or make-book [ps1](/pˌiˌɛs wˈʌn/) -Narrate). It speaks only the pages whose text changed, using the Kokoro text-to-speech toolkit, and rebuilds book assets audio TheHistoryOfDirect3D m4b plus the word timings that drive the read-along highlighting. build book py warns when a page's text has drifted from its narration."
+  },
+  {
+   "id": "9",
+   "text": "Appendix B — Glossary."
+  },
+  {
+   "id": "10",
+   "text": "Terms in the order you meet them in the course."
+  },
+  {
+   "id": "11",
+   "text": "Fixed-function pipeline — a GPU with configurable but non-programmable stages; you set render states, not code (D3D7)."
+  },
+  {
+   "id": "12",
+   "text": "Render state — a knob (SetRenderState) toggling fixed-function behavior: lighting on off, blend mode, cull mode."
+  },
+  {
+   "id": "13",
+   "text": "FVF (Flexible Vertex Format) — a bitmask describing what's in each vertex (position, normal, color, UV) in the fixed-function era."
+  },
+  {
+   "id": "14",
+   "text": "Shader — a program that runs on the GPU for each vertex, pixel, etc."
+  },
+  {
+   "id": "15",
+   "text": "Vertex Pixel (Fragment) shader — programs that transform vertices and color pixels."
+  },
+  {
+   "id": "16",
+   "text": "HLSL — High-Level Shading Language; the C-like language shaders are written in from D3D9 on."
+  },
+  {
+   "id": "17",
+   "text": "Shader Model (SM) — a version number for shader capability ([vs](/vˈi ˈɛs/) 3 0, [cs](/sˈi ˈɛs/) 5 0, SM6.6)."
+  },
+  {
+   "id": "18",
+   "text": "Geometry shader — an optional stage that can create destroy primitives."
+  },
+  {
+   "id": "19",
+   "text": "Tessellation (hull domain shader) — stages that subdivide geometry on the GPU."
+  },
+  {
+   "id": "20",
+   "text": "Compute shader [DirectCompute](/dəɹˈɛkt kəmpjˈut/) — general parallel GPU programs outside the draw pipeline; launched with Dispatch."
+  },
+  {
+   "id": "21",
+   "text": "Constant buffer ([cbuffer](/sˈi bˌʌfəɹ/) CBV) — a block of shader constants (e g. the MVP matrix), introduced as a first-class object in D3D10."
+  },
+  {
+   "id": "22",
+   "text": "View (RTV DSV SRV UAV CBV) — a typed interpretation of a resource: render-target, depth-stencil, shader-resource, unordered-access, constant-buffer."
+  },
+  {
+   "id": "23",
+   "text": "UAV (unordered-access view) — a view a shader can write to (and read)."
+  },
+  {
+   "id": "24",
+   "text": "DXGI — the OS layer owning swap chains, adapters, and output display management (from D3D10)."
+  },
+  {
+   "id": "25",
+   "text": "Swap chain — the set of back buffers you render into and Present."
+  },
+  {
+   "id": "26",
+   "text": "Feature level — a capability tier letting one API (D3D11 12) drive several GPU generations."
+  },
+  {
+   "id": "27",
+   "text": "Device vs. context — D3D11's split of resource creation (free-threaded device) from command issue (context)."
+  },
+  {
+   "id": "28",
+   "text": "Command queue allocator list — D3D12's three-way split of \"issue commands\": the GPU intake, the backing memory, and the recording surface."
+  },
+  {
+   "id": "29",
+   "text": "Fence — a shared counter for CPU GPU synchronization in D3D12."
+  },
+  {
+   "id": "30",
+   "text": "Resource barrier — an explicit resource-state transition (e g. PRESENT to RENDER target) you issue in D3D12."
+  },
+  {
+   "id": "31",
+   "text": "PSO (Pipeline State Object) — an immutable bundle of baked render state + shaders created up front in D3D12."
+  },
+  {
+   "id": "32",
+   "text": "Root signature — the declaration of what inputs (constants, descriptor tables, samplers) a D3D12 pipeline's shaders receive."
+  },
+  {
+   "id": "33",
+   "text": "Descriptor heap — a GPU-visible array of resource descriptors (views) you allocate and index in D3D12."
+  },
+  {
+   "id": "34",
+   "text": "Root constants — a few 32-bit values pushed directly through the root signature (cheapest per-draw data)."
+  },
+  {
+   "id": "35",
+   "text": "Committed placed reserved resource — memory models: own allocation at an offset in your heap virtual with tiles mapped on demand."
+  },
+  {
+   "id": "36",
+   "text": "Copy queue — a dedicated DMA queue for transfers that overlap rendering."
+  },
+  {
+   "id": "37",
+   "text": "Async compute — running compute work on a separate queue concurrently with graphics."
+  },
+  {
+   "id": "38",
+   "text": "Bindless — indexing resources in a big descriptor heap by integer instead of binding each one."
+  },
+  {
+   "id": "39",
+   "text": "MRT G-buffer — multiple render targets written at once; the buffer of surface attributes used by deferred shading."
+  },
+  {
+   "id": "40",
+   "text": "MSAA resolve — multisample anti-aliasing of geometry edges; Resolve collapses samples to one."
+  },
+  {
+   "id": "41",
+   "text": "VRS (variable-rate shading) — shading coarser than one invocation per pixel where detail is unneeded."
+  },
+  {
+   "id": "42",
+   "text": "Mesh amplification shader — SM6 stages that replace the fixed geometry front end with programmable meshlet output + per-meshlet culling."
+  },
+  {
+   "id": "43",
+   "text": "DXR acceleration structure (BLAS TLAS) — hardware ray tracing and the data structures that make ray queries fast."
+  },
+  {
+   "id": "44",
+   "text": "Agility SDK — the mechanism shipping new D3D12 features out-of-band from Windows updates."
+  },
+  {
+   "id": "45",
+   "text": "Work graphs — GPU-scheduled task graphs where GPU nodes launch other nodes."
+  },
+  {
+   "id": "46",
+   "text": "[DirectStorage](/dəɹˈɛkt stˈɔɹɪʤ/) — fast [NVMe](/ˌɛnvˌiˌɛmˈi/) to GPU asset streaming with GPU decompression."
+  },
+  {
+   "id": "47",
+   "text": "DXR 1.2 — the second generation of D3D12 ray tracing (raytracing tier 1.2, Shader Model 6.9): opacity micromaps and shader execution reordering."
+  },
+  {
+   "id": "48",
+   "text": "Opacity micromap (OMM) — per-triangle grid of micro-triangles marked opaque transparent unknown, stored in the acceleration structure so traversal resolves alpha tests without running an any-hit shader."
+  },
+  {
+   "id": "49",
+   "text": "Shader execution reordering ([SER](/ˌɛsˌiˈɑɹ/)) — HitObject + MaybeReorderThread: trace first, let the GPU regroup threads by what they hit, then shade."
+  },
+  {
+   "id": "50",
+   "text": "Long vectors — SM6.9 HLSL vectors wider than four components (vector<half, 16>), needed to pass neural-network feature vectors."
+  },
+  {
+   "id": "51",
+   "text": "[LinAlg](/lˈɪn ˈælʤ/) cooperative vectors — SM6.10 matrix API exposing the GPU's matrix hardware to shaders (Multiply, VectorAccumulate, …) for neural rendering."
+  },
+  {
+   "id": "52",
+   "text": "Partial graphics program — a precompiled pre-rasterization or pixel-shader piece of a pipeline, linked cheaply with the varying state into a generic program."
+  },
+  {
+   "id": "53",
+   "text": "Advanced Shader Delivery (ASD) — shaders precompiled for your GPU + driver and delivered with the game download, so the first launch doesn't compile."
+  },
+  {
+   "id": "54",
+   "text": "DirectX dump file — a console-style GPU crash dump written on device removal (preview)."
+  },
+  {
+   "id": "55",
+   "text": "[WARP](/wˈɔɹp/) — Microsoft's software D3D12 rasterizer; the preview [WARP](/wˈɔɹp/) implements new features before drivers do, so preview samples fall back to it."
+  },
+  {
+   "id": "56",
+   "text": "Appendix C — Same Concept, Many Names."
+  },
+  {
+   "id": "57",
+   "text": "The same underlying idea acquired different names as the API evolved. This table is the \"Rosetta Stone\" for reading code across eras."
+  },
+  {
+   "id": "58",
+   "text": "Per-draw transform data."
+  },
+  {
+   "id": "59",
+   "text": "SetTransform(WORLD VIEW PROJ)."
+  },
+  {
+   "id": "60",
+   "text": "shader constants (SetVertexShaderConstantF)."
+  },
+  {
+   "id": "61",
+   "text": "constant buffer ([cbuffer](/sˈi bˌʌfəɹ/) CBV)."
+  },
+  {
+   "id": "62",
+   "text": "root constants or CBV."
+  },
+  {
+   "id": "63",
+   "text": "Describe vertex layout."
+  },
+  {
+   "id": "64",
+   "text": "FVF bitmask."
+  },
+  {
+   "id": "65",
+   "text": "FVF or vertex declaration."
+  },
+  {
+   "id": "66",
+   "text": "input layout (validated vs. shader)."
+  },
+  {
+   "id": "67",
+   "text": "input layout in the PSO."
+  },
+  {
+   "id": "68",
+   "text": "Configure pipeline state."
+  },
+  {
+   "id": "69",
+   "text": "many SetRenderState calls."
+  },
+  {
+   "id": "70",
+   "text": "render states + shaders."
+  },
+  {
+   "id": "71",
+   "text": "state objects set piecemeal."
+  },
+  {
+   "id": "72",
+   "text": "one immutable PSO."
+  },
+  {
+   "id": "73",
+   "text": "\"The GPU\" you talk to."
+  },
+  {
+   "id": "74",
+   "text": "IDirect3DDevice7."
+  },
+  {
+   "id": "75",
+   "text": "IDirect3DDevice9."
+  },
+  {
+   "id": "76",
+   "text": "device + context."
+  },
+  {
+   "id": "77",
+   "text": "device + queue + command list."
+  },
+  {
+   "id": "78",
+   "text": "Present a frame."
+  },
+  {
+   "id": "79",
+   "text": "manual Blt of a surface."
+  },
+  {
+   "id": "80",
+   "text": "Present."
+  },
+  {
+   "id": "81",
+   "text": "DXGI swap chain Present."
+  },
+  {
+   "id": "82",
+   "text": "DXGI swap chain Present (+ barriers)."
+  },
+  {
+   "id": "83",
+   "text": "A texture the shader reads."
+  },
+  {
+   "id": "84",
+   "text": "texture stage."
+  },
+  {
+   "id": "85",
+   "text": "texture sampler."
+  },
+  {
+   "id": "86",
+   "text": "SRV."
+  },
+  {
+   "id": "87",
+   "text": "SRV in a descriptor heap."
+  },
+  {
+   "id": "88",
+   "text": "Who tracks resource state."
+  },
+  {
+   "id": "89",
+   "text": "the driver."
+  },
+  {
+   "id": "90",
+   "text": "the driver."
+  },
+  {
+   "id": "91",
+   "text": "the driver."
+  },
+  {
+   "id": "92",
+   "text": "you (resource barriers)."
+  },
+  {
+   "id": "93",
+   "text": "Who syncs CPU GPU."
+  },
+  {
+   "id": "94",
+   "text": "the driver."
+  },
+  {
+   "id": "95",
+   "text": "the driver."
+  },
+  {
+   "id": "96",
+   "text": "the driver."
+  },
+  {
+   "id": "97",
+   "text": "you (fences)."
+  },
+  {
+   "id": "98",
+   "text": "Reading left-to-right across a row is the evolution of that concept — usually from \"the driver hides it\" toward \"you state it explicitly.\""
+  },
+  {
+   "id": "99",
+   "text": "Appendix D — Further Reading."
+  },
+  {
+   "id": "100",
+   "text": "Microsoft Direct3D 12 programming guide (learn microsoft com) — the authoritative reference for the D3D12 object model, barriers, and PSOs."
+  },
+  {
+   "id": "101",
+   "text": "DirectX-Graphics-Samples (github com microsoft DirectX-Graphics-Samples) — Microsoft's official D3D12 samples; the canonical, production-grade counterparts to this course's teaching samples."
+  },
+  {
+   "id": "102",
+   "text": "DirectX Developer Blog — announcements and deep dives on Agility-SDK features (mesh shaders, DXR, work graphs, [DirectStorage](/dəɹˈɛkt stˈɔɹɪʤ/), enhanced barriers)."
+  },
+  {
+   "id": "103",
+   "text": "\"Introduction to 3D Game Programming with DirectX\" (Frank Luna) — a thorough, book-length treatment of D3D11 12 fundamentals."
+  },
+  {
+   "id": "104",
+   "text": "The samples in this repository — the best next step is to open a sample from the tier you're studying, read it top to bottom, then change one thing and rebuild. Hold a variable constant and diff; the delta is the lesson."
+  },
+  {
+   "id": "105",
+   "text": "Return to the Syllabus »."
+  }
+ ]
+}

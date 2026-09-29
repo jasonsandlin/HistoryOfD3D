@@ -1,0 +1,198 @@
+// D3D11 Tessellation showcase.
+// The hull shader (hs_5_0) sets tessellation factors and the domain shader
+// (ds_5_0) subdivides each cube face triangle, bulging the new vertices toward a
+// sphere by a time-varying amount. Rendered as a wireframe so the added geometry
+// is visible. ESC quits.
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+
+using namespace DirectX;
+
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+
+struct Vertex { XMFLOAT3 pos; XMFLOAT4 color; };
+struct CBuffer { XMMATRIX mvp; float time; float tess; float pad[2]; };
+
+static ID3D11Device*           g_device = nullptr;
+static ID3D11DeviceContext*    g_ctx = nullptr;
+static IDXGISwapChain*         g_swap = nullptr;
+static ID3D11RenderTargetView* g_rtv = nullptr;
+static ID3D11DepthStencilView* g_dsv = nullptr;
+static ID3D11VertexShader*     g_vs = nullptr;
+static ID3D11HullShader*       g_hs = nullptr;
+static ID3D11DomainShader*     g_ds = nullptr;
+static ID3D11PixelShader*      g_ps = nullptr;
+static ID3D11InputLayout*      g_layout = nullptr;
+static ID3D11RasterizerState*  g_wire = nullptr;
+static ID3D11Buffer*           g_vb = nullptr;
+static ID3D11Buffer*           g_ib = nullptr;
+static ID3D11Buffer*           g_cb = nullptr;
+static UINT g_width = 800, g_height = 600;
+
+// [LEARN] Spotlight: the tessellation stages - a hull shader (patch constants +
+// control points) and a domain shader that evaluates the subdivided surface.
+static const char* g_src =
+"cbuffer CB : register(b0) { float4x4 mvp; float g_time; float g_tess; };\n"
+"struct VSOut { float3 opos : POSITION; float4 col : COLOR; };\n"
+"VSOut VSMain(float3 pos : POSITION, float4 col : COLOR) { VSOut o; o.opos = pos; o.col = col; return o; }\n"
+"struct PatchConst { float edges[3] : SV_TessFactor; float inside : SV_InsideTessFactor; };\n"
+"PatchConst HSConst(InputPatch<VSOut,3> ip) {\n"
+"  PatchConst p; p.edges[0] = g_tess; p.edges[1] = g_tess; p.edges[2] = g_tess; p.inside = g_tess; return p;\n"
+"}\n"
+"[domain(\"tri\")]\n"
+"[partitioning(\"fractional_odd\")]\n"
+"[outputtopology(\"triangle_cw\")]\n"
+"[outputcontrolpoints(3)]\n"
+"[patchconstantfunc(\"HSConst\")]\n"
+"VSOut HSMain(InputPatch<VSOut,3> ip, uint id : SV_OutputControlPointID) { return ip[id]; }\n"
+"struct DSOut { float4 pos : SV_POSITION; float4 col : COLOR; };\n"
+"[domain(\"tri\")]\n"
+"DSOut DSMain(PatchConst pc, float3 bary : SV_DomainLocation, const OutputPatch<VSOut,3> patch) {\n"
+"  float3 p = bary.x*patch[0].opos + bary.y*patch[1].opos + bary.z*patch[2].opos;\n"
+"  float4 c = bary.x*patch[0].col + bary.y*patch[1].col + bary.z*patch[2].col;\n"
+"  float bulge = 0.5 + 0.5*sin(g_time*1.5);\n"
+"  float3 sphere = normalize(p) * 1.7;\n"
+"  p = lerp(p, sphere, bulge);\n"
+"  DSOut o; o.pos = mul(float4(p,1.0), mvp); o.col = c; return o;\n"
+"}\n"
+"float4 PSMain(DSOut i) : SV_TARGET { return i.col; }\n";
+
+static LRESULT CALLBACK WndProc(HWND h, UINT m, WPARAM w, LPARAM l) {
+    switch (m) {
+    case WM_KEYDOWN: if (w == VK_ESCAPE) PostQuitMessage(0); return 0;
+    case WM_DESTROY: PostQuitMessage(0); return 0;
+    }
+    return DefWindowProc(h, m, w, l);
+}
+
+static ID3DBlob* Compile(const char* entry, const char* target) {
+    ID3DBlob* b = nullptr; ID3DBlob* e = nullptr;
+    if (FAILED(D3DCompile(g_src, strlen(g_src), nullptr, nullptr, nullptr, entry, target, 0, 0, &b, &e))) {
+        if (e) e->Release(); return nullptr;
+    }
+    return b;
+}
+
+static bool InitD3D(HWND hwnd) {
+    DXGI_SWAP_CHAIN_DESC sd = {};
+    sd.BufferCount = 1;
+    sd.BufferDesc.Width = g_width; sd.BufferDesc.Height = g_height;
+    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    sd.BufferDesc.RefreshRate.Numerator = 60; sd.BufferDesc.RefreshRate.Denominator = 1;
+    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    sd.OutputWindow = hwnd; sd.SampleDesc.Count = 1; sd.Windowed = TRUE;
+    D3D_FEATURE_LEVEL fl;
+    if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
+        0, nullptr, 0, D3D11_SDK_VERSION, &sd, &g_swap, &g_device, &fl, &g_ctx)))
+        return false;
+
+    ID3D11Texture2D* back = nullptr;
+    g_swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&back);
+    g_device->CreateRenderTargetView(back, nullptr, &g_rtv);
+    back->Release();
+
+    D3D11_TEXTURE2D_DESC dd = {};
+    dd.Width = g_width; dd.Height = g_height; dd.MipLevels = 1; dd.ArraySize = 1;
+    dd.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; dd.SampleDesc.Count = 1;
+    dd.Usage = D3D11_USAGE_DEFAULT; dd.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    ID3D11Texture2D* depth = nullptr;
+    g_device->CreateTexture2D(&dd, nullptr, &depth);
+    g_device->CreateDepthStencilView(depth, nullptr, &g_dsv);
+    depth->Release();
+
+    g_ctx->OMSetRenderTargets(1, &g_rtv, g_dsv);
+    D3D11_VIEWPORT vp = { 0, 0, (float)g_width, (float)g_height, 0.0f, 1.0f };
+    g_ctx->RSSetViewports(1, &vp);
+
+    D3D11_RASTERIZER_DESC rd = {};
+    rd.FillMode = D3D11_FILL_WIREFRAME; rd.CullMode = D3D11_CULL_NONE;
+    g_device->CreateRasterizerState(&rd, &g_wire);
+
+    ID3DBlob* vsb = Compile("VSMain", "vs_5_0");
+    ID3DBlob* hsb = Compile("HSMain", "hs_5_0");
+    ID3DBlob* dsb = Compile("DSMain", "ds_5_0");
+    ID3DBlob* psb = Compile("PSMain", "ps_5_0");
+    if (!vsb || !hsb || !dsb || !psb) return false;
+    g_device->CreateVertexShader(vsb->GetBufferPointer(), vsb->GetBufferSize(), nullptr, &g_vs);
+    g_device->CreateHullShader(hsb->GetBufferPointer(), hsb->GetBufferSize(), nullptr, &g_hs);
+    g_device->CreateDomainShader(dsb->GetBufferPointer(), dsb->GetBufferSize(), nullptr, &g_ds);
+    g_device->CreatePixelShader(psb->GetBufferPointer(), psb->GetBufferSize(), nullptr, &g_ps);
+
+    D3D11_INPUT_ELEMENT_DESC il[] = {
+        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    };
+    g_device->CreateInputLayout(il, 2, vsb->GetBufferPointer(), vsb->GetBufferSize(), &g_layout);
+    vsb->Release(); hsb->Release(); dsb->Release(); psb->Release();
+
+    Vertex verts[] = {
+        { {-1,-1,-1}, {0,0,0,1} }, { {-1, 1,-1}, {0,1,0,1} }, { { 1, 1,-1}, {1,1,0,1} }, { { 1,-1,-1}, {1,0,0,1} },
+        { {-1,-1, 1}, {0,0,1,1} }, { {-1, 1, 1}, {0,1,1,1} }, { { 1, 1, 1}, {1,1,1,1} }, { { 1,-1, 1}, {1,0,1,1} },
+    };
+    unsigned short idx[] = {
+        0,1,2, 0,2,3,  4,6,5, 4,7,6,  4,5,1, 4,1,0,
+        3,2,6, 3,6,7,  1,5,6, 1,6,2,  4,0,3, 4,3,7,
+    };
+    D3D11_BUFFER_DESC bd = {}; D3D11_SUBRESOURCE_DATA srd = {};
+    bd.Usage = D3D11_USAGE_DEFAULT; bd.ByteWidth = sizeof(verts);
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER; srd.pSysMem = verts;
+    g_device->CreateBuffer(&bd, &srd, &g_vb);
+    bd.ByteWidth = sizeof(idx); bd.BindFlags = D3D11_BIND_INDEX_BUFFER; srd.pSysMem = idx;
+    g_device->CreateBuffer(&bd, &srd, &g_ib);
+    bd.ByteWidth = sizeof(CBuffer); bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    g_device->CreateBuffer(&bd, nullptr, &g_cb);
+    return true;
+}
+
+static void Render(float t) {
+    float clear[4] = { 0.1f, 0.1f, 0.2f, 1.0f };
+    g_ctx->ClearRenderTargetView(g_rtv, clear);
+    g_ctx->ClearDepthStencilView(g_dsv, D3D11_CLEAR_DEPTH, 1.0f, 0);
+
+    XMMATRIX world = XMMatrixRotationY(t) * XMMatrixRotationX(t * 0.5f);
+    XMMATRIX view = XMMatrixLookAtLH(XMVectorSet(0, 0, -6, 0), XMVectorSet(0, 0, 0, 0), XMVectorSet(0, 1, 0, 0));
+    XMMATRIX proj = XMMatrixPerspectiveFovLH(XM_PIDIV4, (float)g_width / g_height, 0.1f, 100.0f);
+    CBuffer cb; cb.mvp = XMMatrixTranspose(world * view * proj); cb.time = t; cb.tess = 10.0f;
+    g_ctx->UpdateSubresource(g_cb, 0, nullptr, &cb, 0, 0);
+
+    UINT stride = sizeof(Vertex), offset = 0;
+    g_ctx->RSSetState(g_wire);
+    g_ctx->IASetInputLayout(g_layout);
+    g_ctx->IASetVertexBuffers(0, 1, &g_vb, &stride, &offset);
+    g_ctx->IASetIndexBuffer(g_ib, DXGI_FORMAT_R16_UINT, 0);
+    g_ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+    g_ctx->VSSetShader(g_vs, nullptr, 0);
+    g_ctx->HSSetShader(g_hs, nullptr, 0);
+    g_ctx->HSSetConstantBuffers(0, 1, &g_cb);
+    g_ctx->DSSetShader(g_ds, nullptr, 0);
+    g_ctx->DSSetConstantBuffers(0, 1, &g_cb);
+    g_ctx->PSSetShader(g_ps, nullptr, 0);
+    g_ctx->DrawIndexed(36, 0, 0);
+    g_swap->Present(1, 0);
+}
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, int) {
+    WNDCLASS wc = {}; wc.lpfnWndProc = WndProc; wc.hInstance = hInst;
+    wc.hCursor = LoadCursor(nullptr, IDC_ARROW); wc.lpszClassName = "D3D11Tess";
+    RegisterClass(&wc);
+    RECT r = { 0, 0, (LONG)g_width, (LONG)g_height };
+    AdjustWindowRect(&r, WS_OVERLAPPEDWINDOW, FALSE);
+    HWND hwnd = CreateWindow("D3D11Tess", "D3D11 - Tessellation (cube to sphere)",
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+        r.right - r.left, r.bottom - r.top, nullptr, nullptr, hInst, nullptr);
+    if (!InitD3D(hwnd)) { MessageBox(hwnd, "D3D11 tessellation init failed", "Error", MB_OK); return 1; }
+    ShowWindow(hwnd, SW_SHOW);
+
+    DWORD start = GetTickCount();
+    MSG msg = {};
+    while (msg.message != WM_QUIT) {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) { TranslateMessage(&msg); DispatchMessage(&msg); }
+        else Render((GetTickCount() - start) / 1000.0f);
+    }
+    return (int)msg.wParam;
+}

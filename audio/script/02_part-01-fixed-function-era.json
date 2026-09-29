@@ -1,0 +1,160 @@
+{
+ "title": "Part I — The Fixed-Function Era",
+ "hash": "eabb6ed9772f972a",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Part 1 — The Fixed-Function Era."
+  },
+  {
+   "id": "1",
+   "text": "In this era the GPU is an appliance. You don't program it; you configure it. There's a fixed sequence of operations baked into silicon — transform, light, rasterize, blend — and your job is to set the knobs: this matrix, that lighting flag, this cull mode. Then you hand it triangles and it does the rest."
+  },
+  {
+   "id": "2",
+   "text": "Two samples anchor this Part: D3D7 (RotatingCubes D3D7) and D3D8 (RotatingCubes D3D8)."
+  },
+  {
+   "id": "3",
+   "text": "Module 1 — D3D7: Configuring an Appliance."
+  },
+  {
+   "id": "4",
+   "text": "The problem it solved."
+  },
+  {
+   "id": "5",
+   "text": "In 1999, consumer GPUs had just gained hardware transform & lighting (T&L) — the ability to do vertex math on the card instead of the CPU. Direct3D 7 exists to expose that. Its entire worldview: the application describes what state the pipeline should be in, and the fixed-function hardware executes a predetermined program using that state."
+  },
+  {
+   "id": "6",
+   "text": "How it works."
+  },
+  {
+   "id": "7",
+   "text": "D3D7 is joined at the hip to DirectDraw, the older 2D surface API. You don't get a tidy \"swap chain\"; you allocate raw surfaces and blit them yourself. Look at the setup in D3D7 Basic main [cpp](/sˌipˌipˈi/):"
+  },
+  {
+   "id": "8",
+   "text": "Notice there is no shader, no input layout, no constant buffer. Instead, the pipeline is steered by render states and transforms:"
+  },
+  {
+   "id": "9",
+   "text": "Drawing is likewise \"here are vertices, here's their format, go\":"
+  },
+  {
+   "id": "10",
+   "text": "The d3dfvf lvertex is a Flexible Vertex Format flag: a bitmask that tells the fixed-function pipeline what's in each vertex (here: position + a pre-lit color). The pipeline has hardcoded slots for \"position,\" \"color,\" \"normal,\" \"texture coords\" — you can only describe vertices in its vocabulary."
+  },
+  {
+   "id": "11",
+   "text": "And because DirectDraw doesn't present for you, the frame ends with a manual blit from the back buffer to the window's client rectangle:"
+  },
+  {
+   "id": "12",
+   "text": "When to use it (and when not)."
+  },
+  {
+   "id": "13",
+   "text": "This is a history lesson, not a recommendation: never start new work in D3D7. It's here to establish the baseline. But the mental model — \"configure a fixed pipeline with state\" — is worth understanding, because it's exactly what the programmable pipeline replaced, and traces of it survive (depth state, blend state, and rasterizer state in D3D12 are still \"render states,\" just grouped into immutable objects)."
+  },
+  {
+   "id": "14",
+   "text": "Historical \"why now?\""
+  },
+  {
+   "id": "15",
+   "text": "D3D7 couldn't have shaders because the hardware couldn't run them yet. The API is a faithful mirror of 1999 silicon: fixed T&L, fixed lighting, fixed blending. The DirectDraw coupling reflects an even older world where 2D and 3D were separate concerns bolted together."
+  },
+  {
+   "id": "16",
+   "text": "Decision lens — reading legacy fixed-function code."
+  },
+  {
+   "id": "17",
+   "text": "When you meet a wall of SetRenderState calls in old code, don't try to map each one to a modern equivalent line-for-line. Instead ask \"what stage is this configuring?\" Lighting states to what a vertex pixel shader would now compute. Texture-stage states to what a pixel shader would now do. Framing it by pipeline stage makes ancient code legible."
+  },
+  {
+   "id": "18",
+   "text": "Module 2 — D3D8: Consolidation and the First Cracks."
+  },
+  {
+   "id": "19",
+   "text": "The problem it solved."
+  },
+  {
+   "id": "20",
+   "text": "D3D8 (2000) had two jobs. First, consolidation: it merged DirectDraw and Direct3D into a single \"DirectX Graphics\" API, killing the awkward surface juggling of Module 1. Second — and this is the earthquake — it introduced the first programmable shaders (vertex and pixel shaders, in assembly, \"shader model 1 x\"). Our sample deliberately stays fixed-function so you can see the consolidation cleanly; we'll meet real shaders in Part 2."
+  },
+  {
+   "id": "21",
+   "text": "How it works."
+  },
+  {
+   "id": "22",
+   "text": "The surface circus is gone. You describe how you want to present, and the runtime manages the buffers:"
+  },
+  {
+   "id": "23",
+   "text": "Compare that to D3D7's manual primary back Z-buffer clipper dance — a whole category of code simply evaporated. Presenting is now one call:"
+  },
+  {
+   "id": "24",
+   "text": "D3D8 also formalizes vertex and index buffers as GPU resources you fill once and reuse, instead of passing raw pointers each draw:"
+  },
+  {
+   "id": "25",
+   "text": "There's a wonderful fossil in the draw code that foreshadows the whole next era:"
+  },
+  {
+   "id": "26",
+   "text": "The method is literally called SetVertexShader, but here we hand it an FVF bitmask — \"use the fixed-function vertex pipeline.\" The socket for programmable shaders has been wired in; we're just not plugging anything into it yet."
+  },
+  {
+   "id": "27",
+   "text": "A side lesson: APIs are mortal."
+  },
+  {
+   "id": "28",
+   "text": "Our D3D8 sample can't use the Windows SDK's headers, because d3d8 h was removed from the modern SDK. The sample vendors the Wine project's headers and loads d3d8 [dll](/dˌiˌɛlˈɛl/) at runtime:"
+  },
+  {
+   "id": "29",
+   "text": "The DLL still ships with Windows for compatibility, but Microsoft stopped supporting development against it. That's a real engineering lesson: an API's runtime and its SDK have different lifetimes. Code you ship may keep running for decades after you can no longer easily build against that API."
+  },
+  {
+   "id": "30",
+   "text": "When to use it."
+  },
+  {
+   "id": "31",
+   "text": "Again — never, for new work. But D3D8 marks the exact inflection point of this entire course: it's the last era where \"just configure the fixed pipeline\" is the whole story, and the first where the alternative exists. Everything from Part 2 onward is life after that fork."
+  },
+  {
+   "id": "32",
+   "text": "Historical \"why now?\""
+  },
+  {
+   "id": "33",
+   "text": "Two forces converged around 2000. Hardware gained programmable vertex units (NVIDIA's GeForce 3 shipped pixel shaders in 2001), so the API needed a way to express programs. And the DirectDraw Direct3D split had become pure friction now that all rendering went through the 3D pipeline. D3D8 resolved both at once."
+  },
+  {
+   "id": "34",
+   "text": "Decision lens — recognizing a \"consolidation\" release."
+  },
+  {
+   "id": "35",
+   "text": "D3D8 is a pattern you'll see again (D3D10, D3D12): a release that removes an entire subsystem and folds its job into a cleaner model. When evaluating whether to adopt such a release, the cost isn't learning the new features — it's that the old escape hatches are gone. D3D8 apps couldn't fall back to raw DirectDraw tricks. That forced simplicity is the point, but it's also the migration pain."
+  },
+  {
+   "id": "36",
+   "text": "Part 1 in one paragraph."
+  },
+  {
+   "id": "37",
+   "text": "The fixed-function era treats the GPU as a configurable appliance: you set render states and transforms, hand over triangles, and hardwired silicon does the rest. D3D7 shows the model at its most raw (manual DirectDraw surfaces); D3D8 cleans it up (swap-chain-like presentation, vertex index buffers) and quietly installs the socket — SetVertexShader — into which the next era will plug real programs. The stage is set for the revolution."
+  }
+ ]
+}

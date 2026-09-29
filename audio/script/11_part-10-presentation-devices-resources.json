@@ -1,0 +1,184 @@
+{
+ "title": "Part X — Presentation, Devices & Advanced Resources (Tiers 7–8)",
+ "hash": "63289d14345237b4",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Part 10 — Presentation, Devices & Advanced Resources (Tiers 7 to 8)."
+  },
+  {
+   "id": "1",
+   "text": "Build note. The Tier 7 and Tier 8 samples described here now exist under D3D12 Tier7 and D3D12 Tier8 and build with build-all [ps1](/pˌiˌɛs wˈʌn/). Code sketches below are simplified for teaching; read each sample's main c for the full implementation and its capability-fallback paths."
+  },
+  {
+   "id": "2",
+   "text": "The final two \"classic-D3D12\" tiers deal with the edges of the system: how frames reach a real (possibly HDR, possibly multi-GPU) display, how to manage resources too big to fit in memory, and how to keep the whole explicit machine correct during development. These are the topics that separate a sample from a shippable product."
+  },
+  {
+   "id": "3",
+   "text": "Anchoring samples: Tier 7 (D3D12 Tier7 ) — HDR, MultiAdapter; Tier 8 (D3D12 Tier8 ) — PipelineLibraries, ReservedResources, Debugging."
+  },
+  {
+   "id": "4",
+   "text": "Module 13 — Tier 7: Getting Frames to the Display."
+  },
+  {
+   "id": "5",
+   "text": "HDR output (HDR)."
+  },
+  {
+   "id": "6",
+   "text": "Standard rendering targets an 8-bit SDR display. HDR output presents in a wide-gamut, high-dynamic-range format (e g. R10G10B10A2 with the [HDR10](/ˌAʧdˌiˈɑɹ tˈɛn/) color space, or r16g16b16a16 float with [scRGB](/ˌɛssˈi ˌɑɹʤˌibˈi/)) so bright highlights and deep colors survive to a capable monitor:"
+  },
+  {
+   "id": "7",
+   "text": "When to use: when you want your carefully lit, physically-based scene to look right on HDR TVs and monitors — the bright sun, glinting metal, and dark shadows that SDR crushes. Requires querying the display's actual capabilities and tone-mapping to them."
+  },
+  {
+   "id": "8",
+   "text": "When not to: HDR adds real pipeline and testing complexity (you must handle SDR and HDR paths, and tone-mapping is easy to get wrong). If your art is authored for SDR and your audience is mostly SDR, it may not be worth it. HDR is a quality investment, not a checkbox."
+  },
+  {
+   "id": "9",
+   "text": "Multi-adapter (MultiAdapter)."
+  },
+  {
+   "id": "10",
+   "text": "Some systems have more than one GPU — an integrated + discrete pair, or multiple discrete cards. D3D12 exposes each adapter explicitly and lets you split work across them:"
+  },
+  {
+   "id": "11",
+   "text": "When to use: rare, specialized cases — offloading post to the iGPU, professional multi-GPU rendering, or explicit alternate-frame setups. When it fits, it's free hardware."
+  },
+  {
+   "id": "12",
+   "text": "When not to: for almost all games. Cross-adapter synchronization and data transfer are complex and fragile, driver support varies, and the classic SLI CF alternate-frame model has largely faded. Treat multi-adapter as a niche tool, not a scaling strategy."
+  },
+  {
+   "id": "13",
+   "text": "Decision lens — presentation & devices."
+  },
+  {
+   "id": "14",
+   "text": "Add HDR when your lighting is HDR-authored and the audience has the displays. Reach for multi-adapter only for a concrete, measured offload; otherwise target one adapter and keep the engine simple."
+  },
+  {
+   "id": "15",
+   "text": "Module 14 — Tier 8: Big Resources & Staying Correct."
+  },
+  {
+   "id": "16",
+   "text": "Pipeline libraries (PipelineLibraries)."
+  },
+  {
+   "id": "17",
+   "text": "Recall the PSO explosion from Part 5: every shader times state combination is a separate object, and each is expensive to compile. Pipeline libraries let you cache compiled PSOs to disk and reload them next run, skipping recompilation:"
+  },
+  {
+   "id": "18",
+   "text": "When to use: any real game with many PSOs and long shader-compile times. Caching turns a multi-second (or multi-minute) first-run compile into an instant warm start, and helps eliminate the in-game hitches of compiling PSOs on demand."
+  },
+  {
+   "id": "19",
+   "text": "When not to: a tiny app with two PSOs doesn't need the machinery. Also, the cache is driver hardware-specific and must be invalidated when drivers change — manage it, don't blindly trust it."
+  },
+  {
+   "id": "20",
+   "text": "Reserved (tiled) resources (ReservedResources)."
+  },
+  {
+   "id": "21",
+   "text": "A reserved resource has a virtual address range but no physical memory until you map tiles into it on demand — the D3D12 mechanism behind megatextures and sparse virtual texturing:"
+  },
+  {
+   "id": "22",
+   "text": "When to use: resources far larger than VRAM where only a fraction is needed at once — virtual texturing, sparse voxel volumes, streaming terrain. It's the way to have a \"16 thousand texture\" without paying 1 GB."
+  },
+  {
+   "id": "23",
+   "text": "When not to: ordinary textures that fit in memory — reserved resources add significant management complexity (tile pools, mapping, residency) for no benefit unless you're genuinely memory-constrained at huge scale."
+  },
+  {
+   "id": "24",
+   "text": "Decision lens — resource residency."
+  },
+  {
+   "id": "25",
+   "text": "Committed placed for things that fit. Reserved tiled only when the resource is bigger than memory and naturally sparse. The complexity is only worth it at extreme scale."
+  },
+  {
+   "id": "26",
+   "text": "Debugging (Debugging)."
+  },
+  {
+   "id": "27",
+   "text": "D3D12 took away the driver's safety net (Part V), so you must catch the errors it used to prevent. The tooling that makes explicit D3D12 survivable:"
+  },
+  {
+   "id": "28",
+   "text": "the debug layer (ID3D12Debug) — validates every call, catches bad barriers, wrong states, and resource misuse;"
+  },
+  {
+   "id": "29",
+   "text": "GPU-based validation — deeper checks that run on the GPU;"
+  },
+  {
+   "id": "30",
+   "text": "[DRED](/dɹˈɛd/) (Device Removed Extended Data) — post-mortem info when the GPU hangs or is removed;"
+  },
+  {
+   "id": "31",
+   "text": "[PIX](/pˈɪks/) markers — named regions for the profiler debugger."
+  },
+  {
+   "id": "32",
+   "text": "DirectX dump files (preview) — full GPU crash dumps, see below."
+  },
+  {
+   "id": "33",
+   "text": "When to use: always, during development. The debug layer will tell you exactly which barrier is wrong or which resource is in the wrong state — the class of bug that otherwise shows up as random corruption or a hang on someone else's GPU."
+  },
+  {
+   "id": "34",
+   "text": "When not to: ship with it off (it's slow). But developing D3D12 without the debug layer is choosing to debug blind — don't."
+  },
+  {
+   "id": "35",
+   "text": "Decision lens — this one's not a trade-off."
+  },
+  {
+   "id": "36",
+   "text": "Enable the debug layer and validation in every development build. The only \"when not to\" is the shipping build, for performance. Explicit APIs make validation tooling essential, not optional."
+  },
+  {
+   "id": "37",
+   "text": "What's next after [DRED](/dɹˈɛd/): DirectX dump files (preview)."
+  },
+  {
+   "id": "38",
+   "text": "[DRED](/dɹˈɛd/) tells you roughly where the GPU was (the last breadcrumb it passed, the page fault address). Console developers have long had more: when the GPU crashes, the [devkit](/dˈɛvkˌɪt/) writes a GPU crash dump — the in-flight commands, shader state and resources — that you open later, like a CPU minidump. DirectX dump files bring that to Windows. The runtime and driver write a dump when the device is removed. The app configures how much the driver captures (no, medium or high overhead; shader registers, resources, event markers), attaches its own blobs (build IDs, the frame's scene description) and asks for the dump to be retained."
+  },
+  {
+   "id": "39",
+   "text": "The honest status: the API and file format (DXDumpFileFormat h) ship in the 1.721-preview headers, but Microsoft says there's \"no way to use it just yet\". So the Debugging sample's panel explains the model and probes for the capability, and shows \"not available\" on today's retail runtime. This is the feature to watch for anyone who has had to debug a TDR from a user's bug report."
+  },
+  {
+   "id": "40",
+   "text": "Historical \"why now?\""
+  },
+  {
+   "id": "41",
+   "text": "Tiers 7 to 8 are the production-hardening layer: the features you need once a D3D12 renderer stops being a demo and has to run on real users' varied displays and GPUs, load quickly, stream huge assets, and be debuggable when it breaks. They close the loop on explicitness — having taken the driver's help away, D3D12 gives you the tools (pipeline caches, validation, [DRED](/dɹˈɛd/)) to live without it."
+  },
+  {
+   "id": "42",
+   "text": "Part 10 in one paragraph."
+  },
+  {
+   "id": "43",
+   "text": "Tier 7 gets frames onto real hardware: HDR presentation for wide-gamut displays and multi-adapter for the rare multi-GPU offload. Tier 8 hardens the engine: pipeline libraries cache compiled PSOs to kill first-run compile hitches, reserved tiled resources give virtually-huge sparse textures without the memory, and the debug layer + validation + [DRED](/dɹˈɛd/) replace the safety net D3D12 removed. Together they mark the transition from \"it renders\" to \"it ships\" — and they exist precisely because explicitness demanded them."
+  }
+ ]
+}

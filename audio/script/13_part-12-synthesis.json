@@ -1,0 +1,176 @@
+{
+ "title": "Part XII — Synthesis: Seeing the Whole Arc",
+ "hash": "e756324430b635af",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Part 12 — Synthesis: Seeing the Whole Arc."
+  },
+  {
+   "id": "1",
+   "text": "We've walked twenty-plus years and six major versions one rotating cube at a time. This closing Part steps back from any single API and looks at the shape of the whole story — the forces that drove it, the pattern that repeats, and where the line points next. If you remember nothing else, remember this Part."
+  },
+  {
+   "id": "2",
+   "text": "Module 16 — The Arc in One Picture."
+  },
+  {
+   "id": "3",
+   "text": "Hold the cube constant and watch what changed. Two independent trends run the entire length of the timeline:"
+  },
+  {
+   "id": "4",
+   "text": "Trend 1 — Programmability (what the GPU computes). This trend ran hard from D3D7 to D3D11, then essentially finished."
+  },
+  {
+   "id": "5",
+   "text": "D3D7."
+  },
+  {
+   "id": "6",
+   "text": "Nothing programmable — you set render states and the fixed pipeline obeyed."
+  },
+  {
+   "id": "7",
+   "text": "D3D8."
+  },
+  {
+   "id": "8",
+   "text": "First vertex pixel shaders (assembly) — a crack in the fixed function."
+  },
+  {
+   "id": "9",
+   "text": "D3D9."
+  },
+  {
+   "id": "10",
+   "text": "HLSL shaders ([vs](/vˈi ˈɛs/) 3 0 [ps](/pˈi ˈɛs/) 3 0) — programmable shading goes mainstream."
+  },
+  {
+   "id": "11",
+   "text": "D3D10."
+  },
+  {
+   "id": "12",
+   "text": "Unified shader model, geometry shader, constant buffers, views."
+  },
+  {
+   "id": "13",
+   "text": "D3D11."
+  },
+  {
+   "id": "14",
+   "text": "Compute shader + tessellation — the GPU becomes a general parallel processor."
+  },
+  {
+   "id": "15",
+   "text": "Trend 2 — Explicitness (who does the bookkeeping). This trend barely moved for a decade, then dominated everything from D3D12 on."
+  },
+  {
+   "id": "16",
+   "text": "D3D7–D3D11."
+  },
+  {
+   "id": "17",
+   "text": "The driver — it allocates memory, tracks resource states, synchronizes CPU GPU, validates calls."
+  },
+  {
+   "id": "18",
+   "text": "D3D12."
+  },
+  {
+   "id": "19",
+   "text": "You — barriers, fences, heaps, PSOs, descriptor heaps are all application code."
+  },
+  {
+   "id": "20",
+   "text": "Agility frontier."
+  },
+  {
+   "id": "21",
+   "text": "The GPU itself increasingly schedules and drives its own work."
+  },
+  {
+   "id": "22",
+   "text": "The single most clarifying idea in this course: D3D7 to D3D11 is the story of Trend 1; D3D11 to D3D12 to frontier is the story of Trend 2. Once shaders could express anything (Trend 1 done), the only remaining bottleneck was CPU-side overhead — so the industry pivoted to Trend 2. The rotating cube looks the same in all six; the code around it records which trend was moving."
+  },
+  {
+   "id": "23",
+   "text": "Module 17 — Cross-Era Retrospective & Where It's Heading."
+  },
+  {
+   "id": "24",
+   "text": "The pattern that repeats."
+  },
+  {
+   "id": "25",
+   "text": "Every major D3D transition follows the same three-beat rhythm:"
+  },
+  {
+   "id": "26",
+   "text": "A hardware capability appears (programmable shaders, unified cores, compute units, RT cores, DMA [NVMe](/ˌɛnvˌiˌɛmˈi/))."
+  },
+  {
+   "id": "27",
+   "text": "The API exposes it, usually by removing an abstraction that used to hide it (fixed function to shaders; driver-managed state to explicit barriers; fixed geometry front end to mesh shaders)."
+  },
+  {
+   "id": "28",
+   "text": "A new class of technique becomes practical (per-pixel lighting; GPU-driven rendering; ray tracing; virtual texturing)."
+  },
+  {
+   "id": "29",
+   "text": "Recognizing this rhythm makes new APIs unsurprising: ask \"what hardware showed up, what abstraction is being removed, and what does that make newly possible?\""
+  },
+  {
+   "id": "30",
+   "text": "The through-line: abstraction is a loan."
+  },
+  {
+   "id": "31",
+   "text": "For twenty years the driver lent you convenience — automatic memory, synchronization, and state tracking. D3D12 called the loan. Everything explicit about D3D12 is convenience being paid back in exchange for control and predictability. That's why the honest default is still \"use the highest-level API that meets your needs.\" D3D11 is not obsolete; it's the right choice whenever you don't need to pay D3D12's price. Newer is not better — matched to the problem is better."
+  },
+  {
+   "id": "32",
+   "text": "Where the line points."
+  },
+  {
+   "id": "33",
+   "text": "Extend both trends and the destination is clear. Trend 1 (programmability) is essentially complete — shaders can express anything. Trend 2 (explicitness) is still moving, and its logical endpoint is GPU autonomy: the GPU generates its own work (work graphs), reaches any resource by index (dynamic resources), streams and decompresses its own assets ([DirectStorage](/dəɹˈɛkt stˈɔɹɪʤ/)), reorders its own threads for coherence ([SER](/ˌɛsˌiˈɑɹ/)), and synchronizes itself with minimal, precise barriers. The CPU's job shrinks toward \"kick off the GPU and stay out of the way.\""
+  },
+  {
+   "id": "34",
+   "text": "A second line runs alongside it: PC is adopting the console model. Consoles always had fixed hardware, precompiled shaders and GPU crash dumps. The newest Agility SDK work closes those gaps on PC: partial programs make pipelines cheap to precompile, Advanced Shader Delivery ships the compiled shaders with the download, and DirectX dump files give Windows console-style crash dumps."
+  },
+  {
+   "id": "35",
+   "text": "The next cube you render won't look different. The interesting question, as always, will be who did the work to get it there — and increasingly, the answer is the GPU itself."
+  },
+  {
+   "id": "36",
+   "text": "How to keep learning."
+  },
+  {
+   "id": "37",
+   "text": "Hold a variable constant. When you meet a new API or extension, port something you already understand (a cube, a lit sphere) and diff the code. The delta is the lesson."
+  },
+  {
+   "id": "38",
+   "text": "Always ask \"when and why,\" not just \"how.\" Every feature in this course had a \"when not to use it.\" A feature you can't say no to is a feature you don't understand yet."
+  },
+  {
+   "id": "39",
+   "text": "Follow the hardware. API features are downstream of silicon. New GPU capabilities predict the next API move."
+  },
+  {
+   "id": "40",
+   "text": "The course in three sentences."
+  },
+  {
+   "id": "41",
+   "text": "Direct3D's history is two trends: making the GPU programmable (D3D7 to D3D11, now essentially done) and making the API explicit (D3D12 to frontier, still unfolding toward GPU self-direction). Every transition removed an abstraction to expose new hardware, enabling a new class of technique — and every feature is a trade, right only when matched to a real need. The rotating cube never changed; learning to read the code around it is learning graphics."
+  }
+ ]
+}

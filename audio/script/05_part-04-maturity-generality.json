@@ -1,0 +1,144 @@
+{
+ "title": "Part IV — Maturity & Generality",
+ "hash": "7d0939265af2ff58",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Part 4 — Maturity & Generality."
+  },
+  {
+   "id": "1",
+   "text": "Direct3D 11 (2009, Windows 7) is not a redesign — it's a refinement and expansion of D3D10's clean foundation. It's arguably the most beloved release in the timeline: modern enough to do everything, forgiving enough to be productive, and still in heavy use today. Two additions define it — the pipeline grows two new tricks (tessellation and compute), and the API grows up to support multithreaded rendering and feature levels."
+  },
+  {
+   "id": "2",
+   "text": "Anchoring samples (repo root): D3D11 plus the showcases D3D11 VertexShader, .PixelShader, .GeometryShader, .ComputeShader, and .Tessellation."
+  },
+  {
+   "id": "3",
+   "text": "Module 5 — D3D11: The GPU as a General Compute Device."
+  },
+  {
+   "id": "4",
+   "text": "The problem it solved."
+  },
+  {
+   "id": "5",
+   "text": "D3D10 was clean but had two notable gaps. First, its rendering was single-threaded at the API level — a real bottleneck as CPUs went multi-core and scenes grew to tens of thousands of draw calls. Second, using the GPU for non-graphics work was awkward. D3D11 addresses both, and adds hardware tessellation for good measure."
+  },
+  {
+   "id": "6",
+   "text": "Device vs. context: the split that enables threading."
+  },
+  {
+   "id": "7",
+   "text": "D3D10 had one object that was both \"the GPU\" and \"the thing you issue commands to.\" D3D11 splits them:"
+  },
+  {
+   "id": "8",
+   "text": "The device (ID3D11Device) creates resources. It's free-threaded — any thread can call it."
+  },
+  {
+   "id": "9",
+   "text": "The immediate context (ID3D11DeviceContext) issues commands to the GPU."
+  },
+  {
+   "id": "10",
+   "text": "Optional deferred contexts record command lists on worker threads, to be replayed later on the immediate context."
+  },
+  {
+   "id": "11",
+   "text": "You can see the split at creation in D3D11 ComputeShader main [cpp](/sˌipˌipˈi/):"
+  },
+  {
+   "id": "12",
+   "text": "Why the split matters: it's the conceptual seed of D3D12. Once \"create a resource\" and \"issue a command\" are different objects, you can record commands on many threads at once. D3D11's deferred contexts were a first, somewhat limited attempt; D3D12's command lists (Part V) are the full realization. If you understand why D3D11 split device from context, D3D12's command-list model will feel inevitable rather than alien."
+  },
+  {
+   "id": "13",
+   "text": "Feature levels: one API, many hardware generations."
+  },
+  {
+   "id": "14",
+   "text": "D3D11 introduced feature levels — a brilliant pragmatic idea. The D3D11 API can drive D3D9-, D3D10-, or D3D11-class hardware; you query what the actual GPU supports and scale accordingly:"
+  },
+  {
+   "id": "15",
+   "text": "This decoupled API version from hardware capability, so developers could adopt the modern API without abandoning older GPUs. Feature levels carry forward into D3D12."
+  },
+  {
+   "id": "16",
+   "text": "New trick #1: Tessellation (D3D11 Tessellation)."
+  },
+  {
+   "id": "17",
+   "text": "Tessellation adds three pipeline stages that subdivide geometry on the GPU: the hull shader (sets how finely to subdivide), the fixed-function tessellator, and the domain shader (positions each generated vertex). Our sample subdivides each cube face and bulges it toward a sphere:"
+  },
+  {
+   "id": "18",
+   "text": "When to use tessellation: dynamic level-of-detail (more triangles up close, fewer far away), displacement mapping (a heightmap turns a flat quad into terrain on the GPU), and smooth curved surfaces from coarse control meshes. It shines when you want adaptive geometry density without storing or transferring the dense mesh."
+  },
+  {
+   "id": "19",
+   "text": "When not to: if your geometry density is uniform and known, just author the mesh at the right density — tessellation adds pipeline complexity for no gain. And like the geometry shader, over-tessellating (tiny sub-pixel triangles) wrecks performance because GPUs shade pixels in 2 by 2 quads."
+  },
+  {
+   "id": "20",
+   "text": "Decision lens — adaptive geometry."
+  },
+  {
+   "id": "21",
+   "text": "Choose tessellation for continuous LOD driven by distance screen-size. Choose discrete authored LOD meshes when you have a few known levels and want predictable cost. Choose mesh shaders (Part VII) if you're on modern hardware and want programmable, culling-aware geometry generation."
+  },
+  {
+   "id": "22",
+   "text": "New trick #2: [DirectCompute](/dəɹˈɛkt kəmpjˈut/) (D3D11 ComputeShader)."
+  },
+  {
+   "id": "23",
+   "text": "This is D3D11's most far-reaching addition: the compute shader ([cs](/sˈi ˈɛs/) 5 0), which runs general-purpose parallel programs on the GPU outside the draw pipeline. No vertices, no pixels — just threads, thread-groups, and read write buffers textures (UAVs, unordered-access views)."
+  },
+  {
+   "id": "24",
+   "text": "Our sample dispatches a compute shader that writes an animated pattern into a texture, which the cube then samples:"
+  },
+  {
+   "id": "25",
+   "text": "Note the explicit unbind of the UAV before the texture is sampled: the same resource can't be bound for writing and reading simultaneously. D3D11 tracks these hazards for you (it inserts the necessary sync) — remember that, because in D3D12 tracking that hazard becomes your job via resource barriers."
+  },
+  {
+   "id": "26",
+   "text": "When to use compute: post-processing (blur, bloom, tone-mapping), particle simulation, physics, culling, image processing, building acceleration structures — anything data-parallel that isn't naturally \"draw triangles.\" Compute is the foundation of modern GPU-driven rendering."
+  },
+  {
+   "id": "27",
+   "text": "When not to: for work that maps cleanly onto the raster pipeline (e g. a fullscreen pass that reads and writes one target), a pixel shader over a fullscreen triangle can be simpler and equally fast. Reach for compute when you need cross-pixel communication (shared memory), scatter writes, or work that isn't per-output-pixel."
+  },
+  {
+   "id": "28",
+   "text": "Decision lens — compute vs. pixel-shader pass."
+  },
+  {
+   "id": "29",
+   "text": "Use a pixel shader when the work is embarrassingly per-pixel and read-only across neighbors. Use a compute shader when you need groupshared memory, scatter gather, arbitrary output sizes, or you're chaining many stages that never touch the screen."
+  },
+  {
+   "id": "30",
+   "text": "Historical \"why now?\""
+  },
+  {
+   "id": "31",
+   "text": "Multi-core CPUs made single-threaded submission the bottleneck, so the device context split and deferred contexts appeared. GPUs had become fully general parallel processors, so [DirectCompute](/dəɹˈɛkt kəmpjˈut/) exposed that generality. And a fragmented hardware market made feature levels a necessity. D3D11 is what \"programmable GPU\" looks like once the idea is fully mature — which is precisely why the next step had to be about overhead, not features."
+  },
+  {
+   "id": "32",
+   "text": "Part 4 in one paragraph."
+  },
+  {
+   "id": "33",
+   "text": "D3D11 perfects the programmable-GPU model: it splits the free-threaded device from the command-issuing context (enabling multithreaded submission), adds tessellation for adaptive GPU geometry, and — most importantly — adds compute shaders, turning the GPU into a general parallel processor for work that has nothing to do with triangles. Feature levels let one API span many GPU generations. Notice the recurring theme: D3D11 still tracks resource hazards and synchronizes for you. That convenience is the last thing D3D12 will take back — in exchange for the CPU efficiency that features alone could no longer buy."
+  }
+ ]
+}

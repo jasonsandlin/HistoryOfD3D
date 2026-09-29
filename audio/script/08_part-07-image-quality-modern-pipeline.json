@@ -1,0 +1,184 @@
+{
+ "title": "Part VII — Image Quality & the Modern Pipeline",
+ "hash": "0a5a6c63be7a3116",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "Part 7 — Image Quality & the Modern Pipeline."
+  },
+  {
+   "id": "1",
+   "text": "Tier 4 covers two different frontiers at once. The first is image quality — the classic techniques that make a render look correct and clean: shadows, anti-aliasing, and adaptive shading. The second is the Shader Model 6 pipeline revolution — mesh amplification shaders and hardware ray tracing, which redefine how geometry reaches the rasterizer and how light is simulated. Both live in D3D12 Tier4 ."
+  },
+  {
+   "id": "2",
+   "text": "Anchoring samples: ShadowMap, MSAA, VariableRateShading (image quality) and MeshShader, AmplificationShader, RayTracing (SM6 pipeline)."
+  },
+  {
+   "id": "3",
+   "text": "Module 10a — Image Quality Fundamentals."
+  },
+  {
+   "id": "4",
+   "text": "Shadow mapping (D3D12 ShadowMap)."
+  },
+  {
+   "id": "5",
+   "text": "The oldest trick for real-time shadows, and still the dominant one. Render the scene from the light's point of view into a depth texture; then, when shading each pixel, transform it into light space and compare its depth against the stored depth — if it's farther, it's in shadow."
+  },
+  {
+   "id": "6",
+   "text": "The sample uses a typeless depth resource so the same texture can be a DSV when written and an SRV when read, plus a comparison sampler that does the depth test in hardware (giving smooth PCF edges for free)."
+  },
+  {
+   "id": "7",
+   "text": "When to use: essentially always for dynamic shadows from spot directional lights. It's the baseline every game builds on."
+  },
+  {
+   "id": "8",
+   "text": "When not to (naively): a single shadow map has fixed resolution — great near the camera, blocky far away. Large scenes need cascaded shadow maps (several maps at different ranges), and point lights need cube maps or other tricks. Shadow mapping is a family of techniques, not one setting; the sample teaches the core so the elaborations make sense."
+  },
+  {
+   "id": "9",
+   "text": "Decision lens — shadow technique."
+  },
+  {
+   "id": "10",
+   "text": "Single map for a small, contained scene. Cascades for open worlds (resolution where it matters). Ray-traced shadows (below) when you have the hardware budget and want contact-accurate, filter-free results."
+  },
+  {
+   "id": "11",
+   "text": "MSAA (D3D12 MSAA)."
+  },
+  {
+   "id": "12",
+   "text": "Multisample anti-aliasing fixes jagged geometry edges by sampling coverage and depth at multiple points per pixel while shading only once per pixel — cheaper than supersampling. In D3D12 you render to a multisampled target and then resolve it down to a normal one:"
+  },
+  {
+   "id": "13",
+   "text": "When to use: geometry-edge aliasing in forward-rendered scenes. 4 times MSAA is a long-standing sweet spot for quality vs. cost."
+  },
+  {
+   "id": "14",
+   "text": "When not to: MSAA only anti-aliases geometry edges, not shader aliasing (specular sparkle) or texture aliasing, and it's expensive on a deferred G-buffer (Part VI). That's why many modern engines prefer post-process AA (FXAA) or temporal AA (TAA), which handle shader aliasing and cost less on deferred pipelines — at the price of some blur ghosting."
+  },
+  {
+   "id": "15",
+   "text": "Decision lens — anti-aliasing."
+  },
+  {
+   "id": "16",
+   "text": "MSAA for forward rendering with clean edges and no ghosting. TAA for deferred complex pipelines and shader aliasing, accepting temporal artifacts. FXAA as a cheap catch-all. Often engines combine them."
+  },
+  {
+   "id": "17",
+   "text": "Variable-rate shading (D3D12 VariableRateShading)."
+  },
+  {
+   "id": "18",
+   "text": "VRS lets you shade coarser than one invocation per pixel where detail won't be missed — e g. 2 by 2 pixels share one shading result in blurry, distant, or motion-blurred regions. It's set on a ID3D12GraphicsCommandList5:"
+  },
+  {
+   "id": "19",
+   "text": "When to use: shading-bound scenes where you can afford to shade some regions coarsely — peripheral vision (foveated VR), out-of-focus areas, fast-moving regions hidden by motion blur. It's close to free performance when applied where the eye won't notice."
+  },
+  {
+   "id": "20",
+   "text": "When not to: if you're geometry- or bandwidth-bound rather than shading-bound, VRS buys nothing. And applied carelessly it produces visible blocky shading. It also requires hardware support (this machine reports VRS Tier 2). Measure that you're shading-bound before reaching for it."
+  },
+  {
+   "id": "21",
+   "text": "Module 10b — The Shader Model 6 Pipeline Revolution."
+  },
+  {
+   "id": "22",
+   "text": "Everything up to here fed the rasterizer through the same fixed front end: input-assembler to vertex shader to (optional geometry tessellation) to rasterizer. SM6 offers two radical alternatives."
+  },
+  {
+   "id": "23",
+   "text": "Mesh & amplification shaders (D3D12 MeshShader, D3D12 AmplificationShader)."
+  },
+  {
+   "id": "24",
+   "text": "The mesh shader replaces the entire input-assembler vertex geometry front end with a compute-style program that outputs a small batch of triangles (a \"meshlet\") directly:"
+  },
+  {
+   "id": "25",
+   "text": "The amplification shader runs before it and decides how many mesh-shader groups to launch — the natural place to do per-meshlet culling (skip meshlets that are off-screen or back-facing before they cost anything):"
+  },
+  {
+   "id": "26",
+   "text": "When to use: extremely dense geometry, GPU-driven culling at meshlet granularity, and procedural geometry — the mesh pipeline removes the fixed-function bottlenecks (index-buffer fetch, primitive assembly) that limited the classic front end. It's the modern answer to \"draw enormous amounts of geometry efficiently.\""
+  },
+  {
+   "id": "27",
+   "text": "When not to: it requires recent hardware and a mesh-friendly content pipeline (your assets must be split into meshlets). For ordinary geometry the classic vertex pipeline is simpler and universally supported. Mesh shaders are a scale-and-modernity play, not a default."
+  },
+  {
+   "id": "28",
+   "text": "Decision lens — classic vs. mesh pipeline."
+  },
+  {
+   "id": "29",
+   "text": "Classic vertex index for broad compatibility and ordinary meshes. Mesh + amplification when you're geometry throughput-bound, want fine-grained GPU culling, or generate geometry procedurally — and can require modern GPUs."
+  },
+  {
+   "id": "30",
+   "text": "Ray tracing DXR (D3D12 RayTracing)."
+  },
+  {
+   "id": "31",
+   "text": "Rasterization asks \"which pixels does this triangle cover?\" Ray tracing asks the inverse: \"what does this ray hit?\" — the natural formulation for reflections, refractions, accurate shadows, and global illumination. DXR introduces a whole sub-model: acceleration structures (BLAS TLAS) that organize geometry for fast ray queries, and a new family of shaders:"
+  },
+  {
+   "id": "32",
+   "text": "ray generation — casts primary rays,"
+  },
+  {
+   "id": "33",
+   "text": "closest-hit any-hit — shade what a ray hits,"
+  },
+  {
+   "id": "34",
+   "text": "miss — what a ray hits nothing (sky)."
+  },
+  {
+   "id": "35",
+   "text": "This is why bindless (Part VI) matters: a hit shader may strike any object, so it must reach any material's resources by index. Ray tracing is also the payoff for everything explicit about D3D12 — the shader table, acceleration-structure memory, and barriers are all yours to manage."
+  },
+  {
+   "id": "36",
+   "text": "When to use: effects that rasterization fakes poorly — mirror-accurate reflections, soft contact shadows, ambient occlusion, and global illumination. Often used hybrid: rasterize primary visibility, ray-trace specific effects."
+  },
+  {
+   "id": "37",
+   "text": "When not to: ray tracing is expensive and needs RT-capable hardware; a fully path-traced game is still a premium feature. For many effects a well-tuned raster approximation (SSR, shadow maps, SSAO) looks close enough for a fraction of the cost. Use DXR where the raster fake visibly fails."
+  },
+  {
+   "id": "38",
+   "text": "Decision lens — raster vs. ray trace."
+  },
+  {
+   "id": "39",
+   "text": "Raster for primary visibility and effects with good approximations — it's dramatically cheaper. Ray-trace the specific effects (reflections, GI, contact shadows) where approximations break down, and only when the hardware budget allows. Hybrid is the pragmatic norm."
+  },
+  {
+   "id": "40",
+   "text": "Historical \"why now?\""
+  },
+  {
+   "id": "41",
+   "text": "By the late 2010s GPUs gained dedicated hardware — mesh-shader front ends and ray-traversal units (RT cores) — and the SM6 (DXIL) compiler could express these new pipelines. D3D12's explicit model was the prerequisite: managing acceleration structures, shader tables, and meshlet buffers would be impossible under D3D11's hidden bookkeeping. These features are where the pipeline itself finally changes shape after two decades of the same rasterizer front end."
+  },
+  {
+   "id": "42",
+   "text": "Part 7 in one paragraph."
+  },
+  {
+   "id": "43",
+   "text": "Tier 4 pairs classic image quality (shadow maps for shadows, MSAA-plus-resolve for edge anti-aliasing, VRS for adaptive shading cost) with the Shader Model 6 pipeline revolution (mesh + amplification shaders that replace the fixed geometry front end with programmable, culling-aware meshlet generation, and DXR ray tracing that inverts the visibility question for accurate reflections, shadows, and GI). Each is a deliberate trade — quality vs. cost, compatibility vs. scale, raster approximation vs. ray-traced accuracy — and each depends on the explicit foundation D3D12 laid."
+  }
+ ]
+}

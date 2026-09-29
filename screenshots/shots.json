@@ -1,0 +1,523 @@
+﻿{
+    "D3D12.Instancing":  {
+                             "dialog":  false,
+                             "width":  2655,
+                             "ok":  true,
+                             "ms":  4043,
+                             "frames":  36,
+                             "title":  "D3D12 Instancing - many cubes, one draw call",
+                             "height":  1620
+                         },
+    "D3D12.Basic":  {
+                        "dialog":  false,
+                        "width":  1800,
+                        "ok":  true,
+                        "ms":  4056,
+                        "frames":  36,
+                        "title":  "Rotating Cube - Direct3D 12",
+                        "height":  1350
+                    },
+    "D3D10.GeometryShader":  {
+                                 "dialog":  false,
+                                 "width":  1800,
+                                 "ok":  true,
+                                 "ms":  4035,
+                                 "frames":  36,
+                                 "title":  "D3D10 - Geometry Shader (exploding cube)",
+                                 "height":  1350
+                             },
+    "D3D12.ComputeAsync":  {
+                               "dialog":  false,
+                               "width":  2655,
+                               "ok":  true,
+                               "ms":  4052,
+                               "frames":  36,
+                               "title":  "D3D12 Async Compute - compute animates, graphics draws",
+                               "height":  1620
+                           },
+    "D3D12.Nuklear":  {
+                          "dialog":  false,
+                          "width":  2250,
+                          "ok":  true,
+                          "ms":  4041,
+                          "frames":  36,
+                          "title":  "Nuklear Direct3D 12 - Widget Showcase",
+                          "height":  1575
+                      },
+    "D3D12.GeometryShader":  {
+                                 "dialog":  false,
+                                 "width":  1800,
+                                 "ok":  true,
+                                 "ms":  4057,
+                                 "frames":  36,
+                                 "title":  "D3D12 - Geometry Shader (exploding cube)",
+                                 "height":  1350
+                             },
+    "D3D12.TripleBuffering":  {
+                                  "dialog":  false,
+                                  "width":  2655,
+                                  "ok":  true,
+                                  "ms":  4051,
+                                  "frames":  36,
+                                  "title":  "D3D12 Triple Buffering - frames in flight",
+                                  "height":  1620
+                              },
+    "D3D12.Predication":  {
+                              "dialog":  false,
+                              "width":  2655,
+                              "ok":  true,
+                              "ms":  4063,
+                              "frames":  36,
+                              "title":  "D3D12 Fundamentals - core objects tour",
+                              "height":  1620
+                          },
+    "D3D12.ConstantBuffers":  {
+                                  "dialog":  false,
+                                  "width":  2655,
+                                  "ok":  true,
+                                  "ms":  4071,
+                                  "frames":  36,
+                                  "title":  "D3D12 Constant Buffers - CBV via descriptor table",
+                                  "height":  1620
+                              },
+    "D3D12.PixelShader":  {
+                              "dialog":  false,
+                              "width":  1800,
+                              "ok":  true,
+                              "ms":  4005,
+                              "frames":  36,
+                              "title":  "D3D12 - Pixel Shader (procedural color)",
+                              "height":  1350
+                          },
+    "D3D11.GeometryShader":  {
+                                 "dialog":  false,
+                                 "width":  1800,
+                                 "ok":  true,
+                                 "ms":  4023,
+                                 "frames":  36,
+                                 "title":  "D3D11 - Geometry Shader (exploding cube)",
+                                 "height":  1350
+                             },
+    "D3D9.Basic":  {
+                       "dialog":  false,
+                       "width":  1800,
+                       "ok":  true,
+                       "ms":  4038,
+                       "frames":  36,
+                       "title":  "Rotating Cube - Direct3D 9",
+                       "height":  1350
+                   },
+    "D3D12.RayTracing":  {
+                             "dialog":  false,
+                             "width":  1800,
+                             "ok":  true,
+                             "ms":  4011,
+                             "frames":  36,
+                             "title":  "D3D12 - Ray Tracing (DXR: raygen + miss + closest-hit)",
+                             "height":  1350
+                         },
+    "D3D11.ComputeShader":  {
+                                "dialog":  false,
+                                "width":  1800,
+                                "ok":  true,
+                                "ms":  4040,
+                                "frames":  36,
+                                "title":  "D3D11 - Compute Shader (animated texture)",
+                                "height":  1350
+                            },
+    "D3D12.CopyQueue":  {
+                            "dialog":  false,
+                            "width":  2655,
+                            "ok":  true,
+                            "ms":  4058,
+                            "frames":  36,
+                            "title":  "D3D12 Copy Queue - dedicated DMA engine + cross-queue fence",
+                            "height":  1620
+                        },
+    "D3D12.Blending":  {
+                           "dialog":  false,
+                           "width":  2655,
+                           "ok":  true,
+                           "ms":  4054,
+                           "frames":  36,
+                           "title":  "D3D12 Blending - alpha order and additive glow",
+                           "height":  1620
+                       },
+    "D3D12.WorkGraphs":  {
+                             "dialog":  false,
+                             "width":  1800,
+                             "ok":  true,
+                             "ms":  4034,
+                             "frames":  36,
+                             "title":  "D3D12 - Work Graphs (GPU-driven node launch)",
+                             "height":  1350
+                         },
+    "D3D12.Bindless":  {
+                           "dialog":  false,
+                           "width":  2655,
+                           "ok":  true,
+                           "ms":  4048,
+                           "frames":  36,
+                           "title":  "D3D12 Bindless - one table, 8 textures, indexed per draw",
+                           "height":  1620
+                       },
+    "D3D12.MultiAdapter":  {
+                               "dialog":  false,
+                               "width":  2655,
+                               "ok":  true,
+                               "ms":  4053,
+                               "frames":  36,
+                               "title":  "D3D12 MultiAdapter - explicit GPU selection",
+                               "height":  1620
+                           },
+    "D3D12.Textures":  {
+                           "dialog":  false,
+                           "width":  2655,
+                           "ok":  true,
+                           "ms":  4051,
+                           "frames":  36,
+                           "title":  "D3D12 Textures - the texture upload path",
+                           "height":  1620
+                       },
+    "D3D12.DeferredMRT":  {
+                              "dialog":  false,
+                              "width":  2655,
+                              "ok":  true,
+                              "ms":  4065,
+                              "frames":  36,
+                              "title":  "D3D12 Deferred MRT - G-buffer + fullscreen lighting",
+                              "height":  1620
+                          },
+    "D3D9.VertexShader":  {
+                              "dialog":  false,
+                              "width":  1800,
+                              "ok":  true,
+                              "ms":  4029,
+                              "frames":  36,
+                              "title":  "D3D9 - Vertex Shader (breathing cube)",
+                              "height":  1350
+                          },
+    "D3D11.PixelShader":  {
+                              "dialog":  false,
+                              "width":  1800,
+                              "ok":  true,
+                              "ms":  4023,
+                              "frames":  36,
+                              "title":  "D3D11 - Pixel Shader (procedural color)",
+                              "height":  1350
+                          },
+    "D3D12.HDR":  {
+                      "dialog":  false,
+                      "width":  2655,
+                      "ok":  true,
+                      "ms":  4049,
+                      "frames":  36,
+                      "title":  "D3D12 HDR - HDR10 color-space negotiation",
+                      "height":  1620
+                  },
+    "D3D12.ReservedResources":  {
+                                    "dialog":  false,
+                                    "width":  2655,
+                                    "ok":  true,
+                                    "ms":  4060,
+                                    "frames":  36,
+                                    "title":  "D3D12 Reserved Resources - sparse texture tiles",
+                                    "height":  1620
+                                },
+    "D3D7.Basic":  {
+                       "dialog":  false,
+                       "width":  1800,
+                       "ok":  true,
+                       "ms":  4069,
+                       "frames":  36,
+                       "title":  "Rotating Cube - Direct3D 7",
+                       "height":  1350
+                   },
+    "D3D12.Debugging":  {
+                            "dialog":  false,
+                            "width":  2655,
+                            "ok":  true,
+                            "ms":  4051,
+                            "frames":  36,
+                            "title":  "D3D12 Debugging - debug layer, DRED, InfoQueue",
+                            "height":  1620
+                        },
+    "D3D12.Fundamentals":  {
+                               "dialog":  false,
+                               "width":  2655,
+                               "ok":  true,
+                               "ms":  4051,
+                               "frames":  36,
+                               "title":  "D3D12 Fundamentals - core objects tour",
+                               "height":  1620
+                           },
+    "D3D11.Tessellation":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4026,
+                               "frames":  36,
+                               "title":  "D3D11 - Tessellation (cube to sphere)",
+                               "height":  1350
+                           },
+    "D3D12.DirectStorage":  {
+                                "ok":  false,
+                                "reason":  "no window"
+                            },
+    "D3D12.Queries":  {
+                          "dialog":  false,
+                          "width":  2655,
+                          "ok":  true,
+                          "ms":  4063,
+                          "frames":  36,
+                          "title":  "D3D12 Fundamentals - core objects tour",
+                          "height":  1620
+                      },
+    "D3D9.PixelShader":  {
+                             "dialog":  false,
+                             "width":  1800,
+                             "ok":  true,
+                             "ms":  4056,
+                             "frames":  36,
+                             "title":  "D3D9 - Pixel Shader (procedural color)",
+                             "height":  1350
+                         },
+    "D3D12.ShadowMap":  {
+                            "dialog":  false,
+                            "width":  2655,
+                            "ok":  true,
+                            "ms":  4053,
+                            "frames":  36,
+                            "title":  "D3D12 Shadow Mapping - depth from the light drives shadows",
+                            "height":  1620
+                        },
+    "D3D12.VariableRateShading":  {
+                                      "dialog":  false,
+                                      "width":  2655,
+                                      "ok":  true,
+                                      "ms":  4072,
+                                      "frames":  36,
+                                      "title":  "D3D12 Variable Rate Shading - shade blocks, not pixels",
+                                      "height":  1620
+                                  },
+    "D3D11.VertexShader":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4016,
+                               "frames":  36,
+                               "title":  "D3D11 - Vertex Shader (twist)",
+                               "height":  1350
+                           },
+    "D3D12.RootSignatures":  {
+                                 "dialog":  false,
+                                 "width":  2655,
+                                 "ok":  true,
+                                 "ms":  4051,
+                                 "frames":  36,
+                                 "title":  "D3D12 Root Signatures - root constants vs root CBV vs table",
+                                 "height":  1620
+                             },
+    "D3D11.Basic":  {
+                        "dialog":  false,
+                        "width":  1800,
+                        "ok":  true,
+                        "ms":  4017,
+                        "frames":  36,
+                        "title":  "Rotating Cube - Direct3D 11",
+                        "height":  1350
+                    },
+    "D3D12.PipelineLibraries":  {
+                                    "dialog":  false,
+                                    "width":  2655,
+                                    "ok":  true,
+                                    "ms":  4052,
+                                    "frames":  36,
+                                    "title":  "D3D12 Pipeline Libraries - PSO cache",
+                                    "height":  1620
+                                },
+    "D3D12.MSAA":  {
+                       "dialog":  false,
+                       "width":  2655,
+                       "ok":  true,
+                       "ms":  4065,
+                       "frames":  36,
+                       "title":  "D3D12 MSAA - multisample render target + resolve",
+                       "height":  1620
+                   },
+    "D3D12.PlacedResources":  {
+                                  "dialog":  false,
+                                  "width":  2655,
+                                  "ok":  true,
+                                  "ms":  4054,
+                                  "frames":  36,
+                                  "title":  "D3D12 Placed Resources - one heap, many resources",
+                                  "height":  1620
+                              },
+    "D3D12.IndirectDraw":  {
+                               "dialog":  false,
+                               "width":  2655,
+                               "ok":  true,
+                               "ms":  4062,
+                               "frames":  36,
+                               "title":  "D3D12 ExecuteIndirect - GPU-driven ring of cubes",
+                               "height":  1620
+                           },
+    "D3D12.LinearAlgebra":  {
+                                "dialog":  false,
+                                "width":  1800,
+                                "ok":  true,
+                                "ms":  4024,
+                                "frames":  36,
+                                "title":  "D3D12 - SM 6.10 LinAlg ON | WARP (preview) | Multiply OK, VectorAccumulate OK | 16.67 ms/frame",
+                                "height":  1350
+                            },
+    "D3D8.Basic":  {
+                       "dialog":  false,
+                       "width":  1800,
+                       "ok":  true,
+                       "ms":  4047,
+                       "frames":  36,
+                       "title":  "Rotating Cube - Direct3D 8",
+                       "height":  1350
+                   },
+    "D3D10.Basic":  {
+                        "dialog":  false,
+                        "width":  1800,
+                        "ok":  true,
+                        "ms":  4031,
+                        "frames":  36,
+                        "title":  "Rotating Cube - Direct3D 10",
+                        "height":  1350
+                    },
+    "D3D12.EnhancedBarriers":  {
+                                   "dialog":  false,
+                                   "width":  1800,
+                                   "ok":  true,
+                                   "ms":  4010,
+                                   "frames":  36,
+                                   "title":  "D3D12 - Enhanced Barriers",
+                                   "height":  1350
+                               },
+    "D3D12.AmplificationShader":  {
+                                      "dialog":  false,
+                                      "width":  1800,
+                                      "ok":  true,
+                                      "ms":  4030,
+                                      "frames":  36,
+                                      "title":  "D3D12 - Amplification Shader (ring of cubes)",
+                                      "height":  1350
+                                  },
+    "D3D12.PartialPrograms":  {
+                                  "dialog":  false,
+                                  "width":  1800,
+                                  "ok":  true,
+                                  "ms":  4029,
+                                  "frames":  36,
+                                  "title":  "D3D12 - Partial Programs | WARP (preview) | compile 1.8 ms, link 5x 0.04 ms vs 5 PSOs 1.5 ms | 1st draw 294/273 ms | SetProgram | 16.67 ms/frame",
+                                  "height":  1350
+                              },
+    "D3D12.MultiThreadedRecording":  {
+                                         "dialog":  false,
+                                         "width":  2655,
+                                         "ok":  true,
+                                         "ms":  4049,
+                                         "frames":  36,
+                                         "title":  "D3D12 Fundamentals - core objects tour",
+                                         "height":  1620
+                                     },
+    "D3D12.Bundles":  {
+                          "dialog":  false,
+                          "width":  2655,
+                          "ok":  true,
+                          "ms":  4052,
+                          "frames":  36,
+                          "title":  "D3D12 Fundamentals - core objects tour",
+                          "height":  1620
+                      },
+    "D3D10.PixelShader":  {
+                              "dialog":  false,
+                              "width":  1800,
+                              "ok":  true,
+                              "ms":  4022,
+                              "frames":  36,
+                              "title":  "D3D10 - Pixel Shader (procedural color)",
+                              "height":  1350
+                          },
+    "D3D12.MeshShader":  {
+                             "dialog":  false,
+                             "width":  1800,
+                             "ok":  true,
+                             "ms":  4029,
+                             "frames":  36,
+                             "title":  "D3D12 - Mesh Shader (GPU-generated cube)",
+                             "height":  1350
+                         },
+    "D3D12.VertexShader":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4018,
+                               "frames":  36,
+                               "title":  "D3D12 - Vertex Shader (twist)",
+                               "height":  1350
+                           },
+    "D3D12.Tessellation":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4023,
+                               "frames":  36,
+                               "title":  "D3D12 - Tessellation (cube to sphere)",
+                               "height":  1350
+                           },
+    "D3D12.SamplerFeedback":  {
+                                  "ok":  false,
+                                  "reason":  "no window"
+                              },
+    "D3D12.ComputeShader":  {
+                                "dialog":  false,
+                                "width":  1800,
+                                "ok":  true,
+                                "ms":  4021,
+                                "frames":  36,
+                                "title":  "D3D12 - Compute Shader (animated texture)",
+                                "height":  1350
+                            },
+    "D3D12.RayTracing12":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4072,
+                               "frames":  36,
+                               "title":  "D3D12 DXR 1.2 | OMM 2-state (no any-hit), 0 any-hit/frame | SER on (HW reorders: no) | WARP (preview) | rays 19.86 ms | O S H",
+                               "height":  1350
+                           },
+    "D3D10.VertexShader":  {
+                               "dialog":  false,
+                               "width":  1800,
+                               "ok":  true,
+                               "ms":  4017,
+                               "frames":  36,
+                               "title":  "D3D10 - Vertex Shader (twist)",
+                               "height":  1350
+                           },
+    "D3D12.DynamicResources":  {
+                                   "dialog":  false,
+                                   "width":  1800,
+                                   "ok":  true,
+                                   "ms":  4021,
+                                   "frames":  36,
+                                   "title":  "D3D12 - Dynamic Resources",
+                                   "height":  1350
+                               },
+    "D3D12.Stencil":  {
+                          "dialog":  false,
+                          "width":  2655,
+                          "ok":  true,
+                          "ms":  4054,
+                          "frames":  36,
+                          "title":  "D3D12 Stencil - draw through a geometry mask",
+                          "height":  1620
+                      }
+}

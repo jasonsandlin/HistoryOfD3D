@@ -1,0 +1,320 @@
+{
+ "title": "Welcome & syllabus",
+ "hash": "095c2a60e109966a",
+ "voice": "af_heart",
+ "speed": 1.0,
+ "blocks": [
+  {
+   "id": "0",
+   "text": "The Evolution of Direct3D."
+  },
+  {
+   "id": "1",
+   "text": "From Fixed-Function to GPU-Driven Rendering (D3D7 to D3D12)."
+  },
+  {
+   "id": "2",
+   "text": "A code-driven course, taught through the RotatingCubes sample set."
+  },
+  {
+   "id": "3",
+   "text": "Welcome to the course."
+  },
+  {
+   "id": "4",
+   "text": "This is a self-paced course on how Microsoft's Direct3D API evolved across two decades — from the fixed-function D3D7 of 1999 to the explicit, GPU-driven D3D12 of today. Rather than march through API reference pages, we learn by reading a family of small, complete programs that all do the exact same thing: spin a colored cube on the screen."
+  },
+  {
+   "id": "5",
+   "text": "That shared goal is the whole trick. Because the result never changes, the only thing that differs from one sample to the next is the API you must use to achieve it. The cube is a control variable in a controlled experiment. When D3D7 needs 160 lines and D3D12's fundamentals need 700, that difference isn't noise — it is the lesson. Every extra line D3D12 asks of you buys back some control the older runtimes were quietly exercising on your behalf."
+  },
+  {
+   "id": "6",
+   "text": "What makes this course different."
+  },
+  {
+   "id": "7",
+   "text": "Most API tutorials answer \"how?\" This one insists on also answering \"when?\" and \"why?\" For every feature we study, we ask:"
+  },
+  {
+   "id": "8",
+   "text": "The problem — what real need forced this into existence?"
+  },
+  {
+   "id": "9",
+   "text": "How it works — the mechanics, with short excerpts from the sample."
+  },
+  {
+   "id": "10",
+   "text": "When to use it — the situations where it's the right tool."
+  },
+  {
+   "id": "11",
+   "text": "When not to use it — the costs, and when the older simpler way wins."
+  },
+  {
+   "id": "12",
+   "text": "Trade-offs & decision guidance — the engineering judgment involved."
+  },
+  {
+   "id": "13",
+   "text": "Historical \"why now?\" — why it arrived in this era and not earlier."
+  },
+  {
+   "id": "14",
+   "text": "You'll also find recurring Decision lens callouts: short, opinionated frameworks for choosing between competing options (\"committed vs. placed vs. reserved resources,\" \"bundle vs. indirect vs. re-record,\" and so on)."
+  },
+  {
+   "id": "15",
+   "text": "Who this is for."
+  },
+  {
+   "id": "16",
+   "text": "You should be comfortable reading C C++ and have a working mental model of the GPU as \"a thing that turns triangles into pixels.\" You do not need prior Direct3D experience — we build it up era by era. Linear algebra (matrices, vectors) is assumed at the level of \"I know what a model-view-projection matrix is for,\" but every sample uses the same tiny matrix helpers, so you can treat them as a black box if you like."
+  },
+  {
+   "id": "17",
+   "text": "How to use this course."
+  },
+  {
+   "id": "18",
+   "text": "Each Part is a separate file in this docs folder. Work through them in order — the narrative is cumulative, and later Parts assume the vocabulary built earlier. Each Part contains one or more Modules, and each Module studies one or more samples."
+  },
+  {
+   "id": "19",
+   "text": "Every sample is buildable and runnable. From RotatingCubes :"
+  },
+  {
+   "id": "20",
+   "text": "Each sample's executable lands in its own Out subfolder as Cube<Name>.exe. Run it, watch the cube, then read the source alongside the Module. The source is the primary text; these notes are the lecture that surrounds it."
+  },
+  {
+   "id": "21",
+   "text": "A note on the D3D12 layout. All D3D12 samples live under RotatingCubes D3D12 , grouped by learning tier in Tier1 … Tier4 . The tier a sample lives in tells you roughly how far into the D3D12 journey it belongs."
+  },
+  {
+   "id": "22",
+   "text": "The five eras at a glance."
+  },
+  {
+   "id": "23",
+   "text": "D3D7."
+  },
+  {
+   "id": "24",
+   "text": "1999."
+  },
+  {
+   "id": "25",
+   "text": "The GPU is an appliance you configure."
+  },
+  {
+   "id": "26",
+   "text": "Hardware transform & lighting; fixed-function render states."
+  },
+  {
+   "id": "27",
+   "text": "D3D8."
+  },
+  {
+   "id": "28",
+   "text": "2000."
+  },
+  {
+   "id": "29",
+   "text": "Consolidation, and the first programmable shaders."
+  },
+  {
+   "id": "30",
+   "text": "Vertex index buffers; shader assembly (SM 1 x)."
+  },
+  {
+   "id": "31",
+   "text": "D3D9."
+  },
+  {
+   "id": "32",
+   "text": "2002."
+  },
+  {
+   "id": "33",
+   "text": "The programmable pipeline matures."
+  },
+  {
+   "id": "34",
+   "text": "HLSL; vertex & pixel shaders you write."
+  },
+  {
+   "id": "35",
+   "text": "D3D10."
+  },
+  {
+   "id": "36",
+   "text": "2006."
+  },
+  {
+   "id": "37",
+   "text": "Tear it down and rebuild it clean."
+  },
+  {
+   "id": "38",
+   "text": "No fixed function; DXGI; constant buffers; geometry shader."
+  },
+  {
+   "id": "39",
+   "text": "D3D11."
+  },
+  {
+   "id": "40",
+   "text": "2009."
+  },
+  {
+   "id": "41",
+   "text": "The GPU becomes a general compute device."
+  },
+  {
+   "id": "42",
+   "text": "Multithreading; tessellation; [DirectCompute](/dəɹˈɛkt kəmpjˈut/)."
+  },
+  {
+   "id": "43",
+   "text": "D3D12."
+  },
+  {
+   "id": "44",
+   "text": "2015."
+  },
+  {
+   "id": "45",
+   "text": "You manage the GPU yourself."
+  },
+  {
+   "id": "46",
+   "text": "Command lists queues, PSOs, root signatures, explicit memory & sync."
+  },
+  {
+   "id": "47",
+   "text": "The single through-line: the GPU went from a fixed appliance you configure, to a programmable processor you feed, to a raw device you manage. Keep that sentence in mind; every Part is one more step along it."
+  },
+  {
+   "id": "48",
+   "text": "Syllabus."
+  },
+  {
+   "id": "49",
+   "text": "Part 0 — Orientation."
+  },
+  {
+   "id": "50",
+   "text": "The rotating-cube experiment, the anatomy every sample shares, and the vocabulary that survives all five rewrites."
+  },
+  {
+   "id": "51",
+   "text": "Part 1 — The Fixed-Function Era."
+  },
+  {
+   "id": "52",
+   "text": "D3D7, D3D8. Configuring the GPU by render state; the birth (and mortality) of APIs; where shaders first appear."
+  },
+  {
+   "id": "53",
+   "text": "Part 2 — The Programmable Shading Revolution."
+  },
+  {
+   "id": "54",
+   "text": "D3D9 + VertexShader + PixelShader. HLSL arrives; you take ownership of vertex transform and per-pixel color."
+  },
+  {
+   "id": "55",
+   "text": "Part 3 — The Great Redesign."
+  },
+  {
+   "id": "56",
+   "text": "D3D10 + Vertex Pixel Geometry. Fixed function removed; DXGI factored out; constant buffers; the geometry shader."
+  },
+  {
+   "id": "57",
+   "text": "Part 4 — Maturity & Generality."
+  },
+  {
+   "id": "58",
+   "text": "D3D11 + Vertex Pixel Geometry Compute Tessellation. Contexts and multithreading; tessellation; [DirectCompute](/dəɹˈɛkt kəmpjˈut/); feature levels."
+  },
+  {
+   "id": "59",
+   "text": "Part 5 — Going Explicit: The D3D12 Object Model."
+  },
+  {
+   "id": "60",
+   "text": "D3D12 base + Tier 1. Why D3D12 exists; the new object model; fundamentals, resources, and pipeline basics."
+  },
+  {
+   "id": "61",
+   "text": "Part 6 — Feeding the GPU Efficiently."
+  },
+  {
+   "id": "62",
+   "text": "Tier 2 + Tier 3. Explicit memory & submission; multi-engine queues; GPU-driven draws; async compute; bindless; multi-pass rendering."
+  },
+  {
+   "id": "63",
+   "text": "Part 7 — Image Quality & the Modern Pipeline."
+  },
+  {
+   "id": "64",
+   "text": "Tier 4 + Shader Model 6. Shadow mapping, MSAA, variable-rate shading; mesh & amplification shaders; DXR ray tracing."
+  },
+  {
+   "id": "65",
+   "text": "Part 8 — Recording & Querying at Scale."
+  },
+  {
+   "id": "66",
+   "text": "Tier 5. Multi-threaded recording, bundles, timestamp statistics queries, predication."
+  },
+  {
+   "id": "67",
+   "text": "Part 9 — Classic Pipeline Mastery."
+  },
+  {
+   "id": "68",
+   "text": "Tier 6. Instancing, blending & transparency, the stencil buffer — the output-merger details every real renderer needs."
+  },
+  {
+   "id": "69",
+   "text": "Part 10 — Presentation, Devices & Advanced Resources."
+  },
+  {
+   "id": "70",
+   "text": "Tier 7 & 8. HDR & swap-chain color; multi-adapter; pipeline libraries; reserved tiled resources; debugging & tooling."
+  },
+  {
+   "id": "71",
+   "text": "Part 11 — The Frontier."
+  },
+  {
+   "id": "72",
+   "text": "Tier 9 Agility SDK. SM6.6 dynamic resources, enhanced barriers, sampler feedback, work graphs, [DirectStorage](/dəɹˈɛkt stˈɔɹɪʤ/), DXR 1.2 (opacity micromaps + shader execution reordering), SM6.10 linear algebra neural rendering, partial graphics programs & Advanced Shader Delivery."
+  },
+  {
+   "id": "73",
+   "text": "Part 12 — Synthesis."
+  },
+  {
+   "id": "74",
+   "text": "The arc in one picture; a cross-era retrospective; where the API goes next."
+  },
+  {
+   "id": "75",
+   "text": "Appendices."
+  },
+  {
+   "id": "76",
+   "text": "Build run cheat-sheet · glossary · \"same concept, five names\" terminology table · further reading."
+  },
+  {
+   "id": "77",
+   "text": "On the frontier samples. Part 11 covers the Agility-SDK frontier samples in D3D12 Tier9 . The retail ones (SM6.6 dynamic resources, enhanced barriers, sampler feedback, work graphs, [DirectStorage](/dəɹˈɛkt stˈɔɹɪʤ/)) query their capability tier and fall back to a plain cube when the GPU driver lacks support. The preview ones (D3D12 RayTracing12, D3D12 LinearAlgebra, D3D12 PartialPrograms) vendor the Agility SDK 1.721-preview, preview DXC and preview [WARP](/wˈɔɹp/) via fetch-deps [ps1](/pˌiˌɛs wˈʌn/). When the GPU driver doesn't expose the feature yet, they re-run on [WARP](/wˈɔɹp/) so the feature still works on screen. Tiers 1 to 8 (Parts V–X) all exist and build as well."
+  }
+ ]
+}

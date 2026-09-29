@@ -1,0 +1,5 @@
+third_party/
+*.dll
+DirectStorageTexture.bin
+CubeD3D12.DirectStorage.log
+Out/

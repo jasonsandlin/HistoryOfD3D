@@ -1,0 +1,96 @@
+{
+ "audio": "TheHistoryOfDirect3D.m4b",
+ "duration": 8250.75,
+ "chapters": [
+  {
+   "title": "Welcome & syllabus",
+   "file": "00_course.wav",
+   "start": 0.0,
+   "end": 549.9
+  },
+  {
+   "title": "Part 0 — Orientation",
+   "file": "01_part-00-orientation.wav",
+   "start": 549.9,
+   "end": 947.975
+  },
+  {
+   "title": "Part I — The Fixed-Function Era",
+   "file": "02_part-01-fixed-function-era.wav",
+   "start": 947.975,
+   "end": 1395.225
+  },
+  {
+   "title": "Part II — The Programmable Shading Revolution",
+   "file": "03_part-02-programmable-shading.wav",
+   "start": 1395.225,
+   "end": 1816.95
+  },
+  {
+   "title": "Part III — The Great Redesign",
+   "file": "04_part-03-great-redesign.wav",
+   "start": 1816.95,
+   "end": 2281.5
+  },
+  {
+   "title": "Part IV — Maturity & Generality",
+   "file": "05_part-04-maturity-generality.wav",
+   "start": 2281.5,
+   "end": 2755.975
+  },
+  {
+   "title": "Part V — Going Explicit: The D3D12 Object Model",
+   "file": "06_part-05-going-explicit-d3d12.wav",
+   "start": 2755.975,
+   "end": 3332.8
+  },
+  {
+   "title": "Part VI — Feeding the GPU: Memory, Copies, and GPU-Driven Work",
+   "file": "07_part-06-feeding-the-gpu.wav",
+   "start": 3332.8,
+   "end": 3927.65
+  },
+  {
+   "title": "Part VII — Image Quality & the Modern Pipeline",
+   "file": "08_part-07-image-quality-modern-pipeline.wav",
+   "start": 3927.65,
+   "end": 4503.425
+  },
+  {
+   "title": "Part VIII — Recording & Querying at Scale (Tier 5)",
+   "file": "09_part-08-recording-querying-at-scale.wav",
+   "start": 4503.425,
+   "end": 4867.325
+  },
+  {
+   "title": "Part IX — Classic Pipeline Mastery (Tier 6)",
+   "file": "10_part-09-classic-pipeline-mastery.wav",
+   "start": 4867.325,
+   "end": 5197.425
+  },
+  {
+   "title": "Part X — Presentation, Devices & Advanced Resources (Tiers 7–8)",
+   "file": "11_part-10-presentation-devices-resources.wav",
+   "start": 5197.425,
+   "end": 5743.65
+  },
+  {
+   "title": "Part XI — The Frontier: Where Direct3D Is Heading",
+   "file": "12_part-11-the-frontier.wav",
+   "start": 5743.65,
+   "end": 7065.725
+  },
+  {
+   "title": "Part XII — Synthesis: Seeing the Whole Arc",
+   "file": "13_part-12-synthesis.wav",
+   "start": 7065.725,
+   "end": 7452.9
+  },
+  {
+   "title": "Appendices",
+   "file": "14_appendices.wav",
+   "start": 7452.9,
+   "end": 8250.75
+  }
+ ]
+}

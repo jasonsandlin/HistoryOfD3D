@@ -1,0 +1,24 @@
+# Build outputs
+Out/
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.log
+__pycache__/
+
+# Generated: the rendered book (published to the gh-pages branch by
+# tools/publish-site.ps1) and the offline zip (tools/pack-share.ps1)
+book/
+dist/
+
+# Narration: WAV cache, and the whole-book m4b (a GitHub Release asset)
+audio/work/
+audio/*.m4b
+audio/*.srt
+*.partial.m4a
+*.partial.m4b
+*.partial.srt
+audio/chapters.partial.json
